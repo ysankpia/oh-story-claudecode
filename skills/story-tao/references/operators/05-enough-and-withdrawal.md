@@ -2,6 +2,9 @@
 id: tao-05-enough-and-withdrawal
 chapters: [9, 44]
 title: 持盈知止与功成身退
+domain: desire-boundary
+coverage_role: primary
+risk_level: medium
 ---
 # 持盈知止与功成身退
 
@@ -34,3 +37,9 @@ title: 持盈知止与功成身退
 
 ## 禁止说教方式
 不让高人劝主角淡泊；用资产、职位、关系和未完责任构成无法兼得的选择。
+
+## 历史语境
+关联富贵、名位和政治进退的风险判断，重点是边界与责任，不是反对一切成就。
+
+## 现代化边界
+不得以知足压制合理劳动回报，也不能让退出逃避已造成的责任。

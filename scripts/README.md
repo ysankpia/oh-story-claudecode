@@ -12,7 +12,8 @@
 | `static-check.sh` + `static-check.py` | 结构化验证 frontmatter、Markdown 路径/锚点、Agent 引用、references 可达性；除基础组件 `browser-cdp` 外禁止跨 Skill 文件引用 | CI |
 | `skill-numbering.py check` | 工作流 Step/Phase/Stage 编号策略、引用绑定、SKILL.md 裸编号/子步骤小数守卫 | CI；改工作流结构后 |
 | `check-current-skill-contracts.sh` + `.py` + `current-contract.json` | 从结构化 manifest 校验当前版本、Phase、schema、主产物与细纲契约；保留 legacy/path 守卫并拦截缺主产物后的静默替代 | CI |
-| `story_tao_contract.py` | 从 current-contract manifest 校验《道德经》81 章、15 张命题卡及长篇/审稿接入 | CI |
+| `story_tao_contract.py` | 从 current-contract manifest 校验《道德经》81 章、60 张命题卡、全章覆盖矩阵、项目契约及文学流程接入 | CI |
+| `story_tao_runtime.py` | 执行 story-tao 的匹配、契约创建/迁移、摘要、证据映射和思想进展更新 | Claude/Codex 流程 |
 | `check-shared-files.sh` | 调 `sync-shared-assets.py check` 验 runtime 副本，再验 59 组共享 reference 字节一致 | CI |
 | `check-story-setup-deployment.sh` | story-setup 部署/运行时回归（慢，>2min） | CI |
 | `check-hook-regex-sync.sh` | `detect-story-gaps.sh` 伏笔状态检测行为 | CI |
@@ -33,7 +34,8 @@
 | `test-codex-hooks.sh` | Codex hook 合成 stdin/stdout 契约 | CI |
 | `test-static-check.py` | 真 frontmatter block、精确路径/锚点、跨 Skill 引用、fence、死 reference、Agent 与章节链接 fixture | CI |
 | `test-current-skill-contracts.py` | current-contract manifest 类型/固定值与主产物 fail-fast 语义 fixture | CI |
-| `test-story-tao-contract.py` | story-tao 章次、卡片 ID、章节引用、必填段落和接入契约的负向回归 | CI |
+| `test-story-tao-contract.py` | story-tao 章次、卡片 ID、章节引用、项目契约、必填段落和接入契约的负向回归 | CI |
+| `test-story-tao-runtime.py` | match/ensure/summarize/map-evidence/advance 的行为回归 | CI |
 | `test-shared-assets.py` | 共享资产 manifest 的 drift、sync、路径越界、basename 单一 owner 与未登记重复检测 | CI |
 | `test-normalize-punctuation.js` | 标点归一化的只读检查、frontmatter/fence、CRLF、引号模式与幂等性 | CI |
 | `test-scan-runtime.js` | CDP argv 边界/报错/JSON 契约与 7 个 scraper 无副作用 import | CI |

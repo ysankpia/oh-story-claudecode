@@ -2,6 +2,9 @@
 id: tao-06-use-of-emptiness
 chapters: [11]
 title: 有无之用
+domain: space-absence
+coverage_role: primary
+risk_level: low
 ---
 # 有无之用
 
@@ -34,3 +37,9 @@ title: 有无之用
 
 ## 禁止说教方式
 不直接解释器皿比喻；让同一空位先造成不安，再显出功能和代价。
+
+## 历史语境
+以器物和空间说明有形与无形互相成用，不等于赞美空缺本身。
+
+## 现代化边界
+留白必须有证据和功能；不能用缺失信息掩盖设定漏洞、失职或资源剥夺。

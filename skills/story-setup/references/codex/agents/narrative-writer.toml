@@ -27,6 +27,10 @@ developer_instructions = """
 
 ## 参考文件路径规则
 
+## 本章思想功能
+
+父流程必须传入 runtime `summarize` 结果及细纲中的 `本章思想功能`（`pressure | counterevidence | choice | consequence | recovery`）。只通过细纲已有行动、关系、选择、代价和后果表达；不得讲解原典、模仿古文、添加细纲外事件或改变人物选择。缺少摘要或功能时返回父流程修复，不直接写正文。
+
 **确定项目根目录：** 执行 `git rev-parse --show-toplevel`，失败则用当前工作目录。以下所有路径均为项目根下的绝对路径。
 
 读取参考文件时，直接 Read 当前 Codex 部署的 canonical 路径，禁止先用 Glob/Grep 搜索：

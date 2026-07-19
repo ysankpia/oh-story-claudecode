@@ -1,0 +1,29 @@
+{
+  "manifest_version": 1,
+  "tao_chapter_count": 81,
+  "tao_operator_count": 60,
+  "tao_schema_version": 1,
+  "tao_operator_manifest_version": 60,
+  "tao_card_frontmatter_fields": [
+    "id",
+    "chapters",
+    "title",
+    "domain",
+    "coverage_role",
+    "risk_level"
+  ],
+  "tao_card_sections": [
+    "原典章节",
+    "基本释义",
+    "历史语境",
+    "解释边界",
+    "现代化边界",
+    "核心命题",
+    "反命题",
+    "适用冲突",
+    "人物立场",
+    "情节转化方法",
+    "失败用法",
+    "禁止说教方式"
+  ]
+}

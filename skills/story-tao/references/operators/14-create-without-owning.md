@@ -2,6 +2,9 @@
 id: tao-14-create-without-owning
 chapters: [2, 10, 34, 51]
 title: 生而不有、为而不恃
+domain: creation-ownership
+coverage_role: primary
+risk_level: high
 ---
 # 生而不有、为而不恃
 
@@ -34,3 +37,9 @@ title: 生而不有、为而不恃
 
 ## 禁止说教方式
 不让受益者空口感谢后离开；具体结算收益、责任、控制权和退出机制。
+
+## 历史语境
+生养、成就和不居功关联领导与德性，不否认劳动回报、产权和责任归属。
+
+## 现代化边界
+不得用不占有为名抹去署名、报酬、照护责任或被培养者的真实债务。

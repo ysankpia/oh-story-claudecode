@@ -2,6 +2,9 @@
 id: tao-09-bending-and-less
 chapters: [22]
 title: 曲全与少得
+domain: negotiation-boundary
+coverage_role: primary
+risk_level: high
 ---
 # 曲全与少得
 
@@ -34,3 +37,9 @@ title: 曲全与少得
 
 ## 禁止说教方式
 不靠“吃亏是福”劝诫；明确展示失去什么、保住什么、未来行动权是否仍在。
+
+## 历史语境
+曲全、少得描述保存与成全的策略，不应被解释为服从等级或永远退让。
+
+## 现代化边界
+必须写清谁承担退让成本；不得把结构性剥削包装为高尚牺牲。

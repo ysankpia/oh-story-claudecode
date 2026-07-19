@@ -6,6 +6,10 @@ description: "网络小说工具箱主入口。根据用户需求自动路由到
 
 你是网文工具箱的路由入口。用户的请求模糊时由你分发到具体 skill。
 
+## 强制思想内核
+
+除 `story-setup` 与 `browser-cdp` 外，所有文学流程都自动调用 `story-tao` 的 `match / ensure / summarize / map-evidence / advance` 中对应接口。`/story-tao` 只用于作者主动重校准，不是启用开关；作者可更换主/辅命题，但不能关闭思想层。运行时返回 `thought_contract_blocked` 时，写作、导入、审稿、去 AI 味和封面必须停止，扫榜等无项目流程只能明确输出未落盘的 `provisional`。
+
 ## 路由表
 
 > Claude Code 使用 `/story-*` 触发；Codex 使用 `$story-*` 或 `/skills`。下表以 slash command 展示，Codex 可将 `/story-long-write` 等价替换为 `$story-long-write`。

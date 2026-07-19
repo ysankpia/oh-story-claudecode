@@ -17,6 +17,8 @@
 围绕四条线展开：爆款逆向 · 剧情模块化重组 · 上下文状态分层管理 · 人机协同。
 
 > v0.8.0 起：仓库收敛为 Claude Code 与 Codex 双端写作引擎；保留 14 个 skill、共享 hook 核与双端部署，移除其他运行时的安装、部署和发布路径。既有项目请重新运行 `/story-setup` 并新开会话。
+
+> v0.10.0 起：《道德经》思想契约由 `scripts/story_tao_runtime.py` 统一执行，成为扫榜、拆文、导入、长短篇写作、审稿、去 AI 味和封面的强制内核；作者可重校准命题但不能关闭。旧项目重新运行 `/story-setup` 后从未来纲要和正文生效，不回写旧正文。
 >
 > 更早版本变更见 [CHANGELOG.md](CHANGELOG.md)。
 
@@ -110,7 +112,7 @@ npx skills add worldwonderer/oh-story-claudecode -y -g
 | `story-setup` | `/story-setup` `$story-setup` `/准备写书` | 环境部署 · Claude Code / Codex（已有配置安全合并） |
 | `story` | `/story` `$story` `/网文` | 工具箱路由 · 模糊意图自动分发到对应 skill |
 | `story-long-write` | `/story-long-write` `/写长篇` | 长篇写作 · 大纲搭建、人物设定、正文输出 |
-| `story-tao` | `/story-tao` `$story-tao` `/道德经创作` | 道德经思想命题 · 人物立场、三次情节检验、非阻断审稿建议 |
+| `story-tao` | `/story-tao` `$story-tao` `/道德经创作` | 强制思想内核 · 60 张主题命题卡覆盖全部 81 章，支持自动契约、证据映射、运行进展与 Thought Gate |
 | `story-long-analyze` | `/story-long-analyze` | 长篇拆文 · 黄金三章、爽点设计、节奏分析 |
 | `story-long-scan` | `/story-long-scan` | 长篇扫榜 · 起点/番茄/晋江市场趋势 |
 | `story-short-write` | `/story-short-write` | 短篇写作 · 情绪设计、反转构思、精修出稿 |

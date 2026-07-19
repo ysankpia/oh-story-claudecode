@@ -2,6 +2,9 @@
 id: tao-15-small-beginnings
 chapters: [63, 64]
 title: 图难于易、慎终如始
+domain: causality-prevention
+coverage_role: primary
+risk_level: medium
 ---
 # 图难于易、慎终如始
 
@@ -34,3 +37,9 @@ title: 图难于易、慎终如始
 
 ## 禁止说教方式
 不靠任务拆解清单讲哲理；用同一微小动作在开篇、中段和高潮产生递增后果。
+
+## 历史语境
+强调未兆、细微和临近完成时的谨慎，不能把结构性困难简化为个人习惯。
+
+## 现代化边界
+预防必须与资源、信息和试错条件一起写，不能用事后归因替代真实因果。

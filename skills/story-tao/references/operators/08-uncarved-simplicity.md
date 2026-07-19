@@ -2,6 +2,9 @@
 id: tao-08-uncarved-simplicity
 chapters: [19, 28]
 title: 见素抱朴
+domain: identity-desire
+coverage_role: primary
+risk_level: medium
 ---
 # 见素抱朴
 
@@ -34,3 +37,9 @@ title: 见素抱朴
 
 ## 禁止说教方式
 不安排隐士揭穿众人虚伪；用服装、称呼、公开发言和私下选择形成差异。
+
+## 历史语境
+素朴与少私是对礼法、功利和欲望扩张的反思，不等于反知识或反专业。
+
+## 现代化边界
+不得浪漫化贫困、无知或“做自己”而消除角色的社会责任和现实保护需求。

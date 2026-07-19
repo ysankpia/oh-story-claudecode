@@ -2,6 +2,9 @@
 id: tao-02-mutual-arising
 chapters: [2]
 title: 相反相成
+domain: identity-relationship
+coverage_role: primary
+risk_level: medium
 ---
 # 相反相成
 
@@ -34,3 +37,9 @@ title: 相反相成
 
 ## 禁止说教方式
 不写“世间本无善恶”的总结；让评价、奖惩和排除机制产生具体后果。
+
+## 历史语境
+以概念相待、相成说明秩序关系，不取消具体行为的责任差异。
+
+## 现代化边界
+不得用相对主义抹平权力不对等、伤害事实或责任边界。

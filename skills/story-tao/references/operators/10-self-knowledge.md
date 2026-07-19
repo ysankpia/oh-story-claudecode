@@ -2,6 +2,9 @@
 id: tao-10-self-knowledge
 chapters: [33]
 title: 自知与自胜
+domain: self-knowledge
+coverage_role: primary
+risk_level: medium
 ---
 # 自知与自胜
 
@@ -34,3 +37,9 @@ title: 自知与自胜
 
 ## 禁止说教方式
 不写镜前自省总结；通过重复胜法、相同损失和一次不同选择表现自胜。
+
+## 历史语境
+自知、自胜与知足属于修身判断，不是把社会问题全部归因于个人心理。
+
+## 现代化边界
+自省必须与外部行动和资源冲突并列，不能把受害者责任化或替代制度改变。

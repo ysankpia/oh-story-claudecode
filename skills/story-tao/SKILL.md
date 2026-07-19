@@ -1,109 +1,80 @@
 ---
 name: story-tao
-description: "《道德经》小说思想命题设计。把小说构想或已有长篇中的主题转化为可检验的核心命题、反命题、人物立场与情节选择，生成 `设定/思想命题.md`。触发方式：/story-tao、$story-tao、/道德经创作、‘给小说加入道德经思想’、‘用道德经深化这本书’。"
+description: "Oh Story 的强制《道德经》思想内核。自动匹配叙事命题、生成或修复长短篇思想契约、拆文命题张力和长篇思想进展；/story-tao、$story-tao、/道德经创作可用于重新校准，但启用不依赖命令。"
 ---
-# story-tao：《道德经》小说思想命题设计
+# story-tao：强制思想内核
 
-把《道德经》作为可受剧情反驳和检验的思想资源，不把它当作万能公式、固定道德答案或古风装饰。
+本 skill 是所有文学流程共用的深模块。《道德经》提供可被剧情反驳的冲突方法，不是固定道德答案、文风模板或古风装饰。扫榜、拆文、导入、写作、审稿、去 AI 味和封面由各自流程自动调用本接口；公开命令只用于作者主动更换命题。
 
-## 边界
+## 不变量
 
-- 首版只服务长篇；短篇请求说明当前未接入，不擅自套用长篇产物。
-- 只允许一个主命题和最多一个辅命题。
-- 不要求正文引用原典，不自动改变文风，不生成古风腔。
-- 已有作品只新增或更新 `设定/思想命题.md`；不修改既有设定、大纲、细纲和正文。
-- 用户明确要求、读者契约与锁定细纲高于思想命题。冲突时保留原纲并报告 `thought_alignment_conflict`。
+- 每个文学项目恰好一个主命题，最多一个辅命题；作者可以覆盖选择，但不能关闭思想内核。
+- 优先级：作者明确要求、读者契约和锁定大纲 > 思想契约 > 题材取舍与文风。冲突时保留原纲并报告 `thought_alignment_conflict`。
+- 正文只用行动、关系、选择、代价和后果表达，不讲解原典、不自动引用、不模仿古文。
+- 反命题必须聪明且有现实利益；人物不得成为证明老子正确的工具。
+- 其他 skill 只消费本模块生成的短摘要，不自行解释六十张卡，不加载八十一章全文。
 
 ## 参考加载
 
-按需读取，禁止一次加载全部原典和全部卡片：
+- 自动匹配先读 [references/operator-index.md](references/operator-index.md)；需要核对章节归属时再读 [references/coverage-matrix.md](references/coverage-matrix.md)，只读取入选卡片。
+- 维护自动匹配或检查评分漂移时读 [references/matching-fixtures.md](references/matching-fixtures.md)；正常创作不加载校准样例。
+- 原文核对或引文争议才读 [references/daodejing.md](references/daodejing.md) 的对应章。
+- 创建或修复四类产物时按需读取 [references/thought-contract.md](references/thought-contract.md)、[references/short-thought-contract.md](references/short-thought-contract.md)、[references/deconstruction-thought-contract.md](references/deconstruction-thought-contract.md) 和 [references/thought-progress-contract.md](references/thought-progress-contract.md)。
 
-1. 候选匹配先读 [references/operator-index.md](references/operator-index.md)。
-2. 只读取最终候选对应的三张 `references/operators/*.md`。
-3. 用户核对原文或出现引文争议时，才读 [references/daodejing.md](references/daodejing.md) 的对应章节。
-4. 创建或校验产物时读 [references/thought-contract.md](references/thought-contract.md)。
+## 唯一接口
 
-## 场景路由
+所有流程必须通过 bundled runtime 执行，不以本文件的自然语言说明代替实际调用。运行时位于 `scripts/story_tao_runtime.py`，独立安装使用 [references/runtime-contract.json](references/runtime-contract.json)，仓库开发使用根 `scripts/current-contract.json`。调用统一采用 JSON stdin/stdout：
 
-### 新书
+```bash
+for PYBIN in python3 python py; do "$PYBIN" -c "" 2>/dev/null && break; done
+"$PYBIN" scripts/story_tao_runtime.py match
+"$PYBIN" scripts/story_tao_runtime.py ensure --project-root "{项目目录}" --mode long
+"$PYBIN" scripts/story_tao_runtime.py summarize --project-root "{项目目录}" --mode long
+"$PYBIN" scripts/story_tao_runtime.py map-evidence
+"$PYBIN" scripts/story_tao_runtime.py advance --project-root "{项目目录}"
+```
 
-当调用来自长篇开书流程，或活跃书目已有目录但尚无大纲/正文：
+实际执行时从当前已加载的 `story-tao` skill 根目录解析脚本；Windows 同样按上述顺序探测可用解释器。业务错误输出结构化错误码并以状态码 2 退出。
 
-1. 取得题材、平台、目标读者、核心卖点、主角目标和初步冲突。
-2. 进入「推荐与确认」。
-3. 在核心设定落盘前创建 `设定/思想命题.md`。
-4. 将命题用于人物立场、核心冲突和卷级三次检验，不替代题材与读者契约。
+### `match`
 
-没有活跃书目时，不创建残缺书目目录。路由到长篇开书流程；待其确定书名和项目目录后，再回到本流程。
+输入题材、平台、读者契约、主角目标、核心冲突和可用文本证据。先按索引中的 `domain` 轻量过滤，再按人物必须作出的选择自动选一个主命题；所有卡片都可参与评分，`risk_level` 只降低误配和说教风险，不屏蔽治理、战争或社会主题。只有能补充而不建立第二条哲学主线时才选辅命题。只读入选卡片；核对引文时才读原典对应章。
 
-### 已有作品
+材料足以支持人物立场和反命题时返回 `active`；材料不足仍返回 `provisional`，列出待补证据。不得输出三个候选后等待确认。
 
-发现大纲或正文时：
+### `ensure`
 
-1. 读取 `设定/题材定位.md`、主角与核心反方角色档案、`大纲/大纲.md`、当前卷纲。
-2. 代表性正文只读开篇、一个中段关键章和最新章；文件不足时读取现有部分并标记证据不足。
-3. 从可观察的角色选择和后果归纳现有主题，不把用户或旧文档中的主题标签当成事实。
-4. 进入「推荐与确认」。
-5. 在产物中增加「既有作品诊断」和「未自动应用的补强建议」。
-6. 不修改任何旧文件；未来写作可读取已确认命题，但仍以细纲为准。
+按调用场景创建或校验权威产物：
 
-## 推荐与确认
+| 场景 | 权威产物 | 模板 |
+|---|---|---|
+| 长篇 | `设定/思想命题.md` | `references/thought-contract.md` |
+| 短篇 | `思想命题.md` | `references/short-thought-contract.md` |
+| 长短篇拆文 | `拆文库/{书名}/思想/命题张力.md` | `references/deconstruction-thought-contract.md` |
+| 长篇运行状态 | `追踪/思想进展.md` | `references/thought-progress-contract.md` |
 
-### 生成三个候选
+文件缺失就自动创建。`status: confirmed` 自动迁移为 `status: active`；缺段落或合法来源时，根据项目证据和命题卡当轮修复。修复失败返回 `thought_contract_blocked` 并阻断后续文学创作，不得静默跳过。旧正文不回写。
 
-从索引匹配候选，必须恰好输出三项。每项都包含：
+### `summarize`
 
-- 命题卡名称与原典章节；
-- 为什么匹配当前主角、冲突和读者契约；
-- 可形成的核心命题与有力反命题；
-- 与题材卖点或既有情节可能发生的冲突；
-- 最大使用风险，例如说教、消解主角代理权或把反转机械化。
+只向调用者返回场景所需的短摘要：命题/反命题、相关人物立场、当前思想功能或检验、选择/代价/后果、表达禁区和冲突标记。不得传入原典全文、卡片释义或无关历史状态。
 
-候选必须有差异：至少覆盖两种不同的冲突机制，不能只是近义改写。用户指定章节时仍给三项，其中第一项使用指定章节，另外两项提供真正可替代的对照方向。
+### `map-evidence`
 
-### 等待确认
+拆文先从作品证据归纳实际命题、反命题、人物立场、关键选择、代价、后果和反证，再映射最接近的三张命题卡。每项必须带章节或小节证据，并固定声明：这是分析映射，不证明原作者受老子影响。
 
-向作者确认一个主命题，并允许选择零个或一个辅命题。作者未确认前：
+### `advance`
 
-- 不创建 `设定/思想命题.md`；
-- 不把候选传入长篇写作或审稿；
-- 不替作者自动决定。
+长篇每章完成后更新 `追踪/思想进展.md`：记录本章思想功能、人物最新立场、新反证、已付代价和下一检验。只能记录正文已发生事实，不得借更新追踪新增剧情。
 
-选择两个命题时，辅命题只能补充主命题，不能建立第二条独立哲学主线。发生冲突时要求作者只保留一个。
+## 自动匹配原则
 
-## 构造思想契约
-
-确认后按 `thought-contract.md` 填写权威产物。设计时执行以下约束：
-
-1. **命题可被反驳**：写清它在哪些条件下成立、在哪些条件下失效。
-2. **反方有真实利益**：反方不是专门证明老子正确的愚蠢工具人。
-3. **用选择检验**：开篇、发展、高潮各安排一次人物必须付代价的选择。
-4. **后果可见**：命题通过关系、资源、身份、权力或认知变化显现，不靠旁白宣布。
-5. **结局留余地**：写出作品暂时回答了什么，以及仍无法回答什么。
-6. **契约兼容**：不以“不争”“无为”等名义没收主角高光、核心收益或题材承诺。
-
-## 产物校验
-
-写入后重新读取 `设定/思想命题.md`，逐项确认：
-
-- `status: confirmed`；
-- 一个主命题、最多一个辅命题；
-- 卡片 ID 和章节在本 skill 的卡库与原典中存在；
-- 核心命题、反命题、成立/失效条件完整；
-- 三次检验各有选择、代价和后果；
-- 结局回答、保留疑问、读者契约兼容和表达禁区完整；
-- 已有作品明确标注建议未自动应用。
-
-缺项时当轮修复。来源不存在或格式无法确认时，不伪造 `confirmed`，改为报告修复动作。
+1. 匹配人物选择，不匹配题材表面关键词。
+2. 主角、反方和关键配角至少形成两个可辩护立场。
+3. 只有行动过度导致反噬时才选“反者道之动”；只有撤除妄为或重设条件时才选“无为”。
+4. 自动选择必须写明成立条件、失效条件和说教风险。
+5. 作者要求重校准时覆盖契约选择并保留迁移说明；不需要再次确认“是否启用”。
 
 ## 输出
 
-完成后报告：
-
-- 主命题与可选辅命题；
-- 原典章节和实际读取的命题卡；
-- 新书模式或已有作品诊断模式；
-- 创建的 `设定/思想命题.md` 路径；
-- 三次命题检验的短摘要；
-- 未修改的既有文件范围；
-- 任何 `thought_alignment_conflict` 或证据不足项。
+报告调用场景、产物路径、状态、主/辅命题、证据强弱、修复或迁移动作，以及任何 `thought_alignment_conflict` / `thought_contract_blocked`。不在对话中粘贴完整原典。

@@ -20,6 +20,10 @@ memory: project
 
 **创作是你的核心价值。审查是附属能力。**
 
+## 思想契约输入
+
+父流程必须传入 runtime `summarize` 生成的 `thought_contract_summary`。你只用该摘要把全书回答落到大纲、阶段检验落到卷纲、思想功能落到细纲；不得读取全部命题卡，不得新增锁定大纲外事件。摘要与作者要求或读者契约冲突时输出 `thought_alignment_conflict` 并保留上位约束。
+
 ---
 
 ## 参考文件路径规则

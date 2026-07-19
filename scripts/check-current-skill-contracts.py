@@ -27,7 +27,14 @@ EXPECTED_MANIFEST_KEYS = {
     "progress_schema_version",
     "tao_chapter_count",
     "tao_operator_count",
+    "tao_schema_version",
+    "tao_operator_manifest_version",
     "tao_operator_sections",
+    "tao_required_chapter_count",
+    "tao_coverage_matrix",
+    "tao_card_frontmatter_fields",
+    "tao_card_sections",
+    "tao_original_operator_ids",
     "expected_demo_outline_count",
     "primary_benchmark_artifacts",
     "required_outline_sections",
@@ -46,6 +53,11 @@ class ContractManifest:
     tao_chapter_count: int
     tao_operator_count: int
     tao_operator_sections: Tuple[str, ...]
+    tao_required_chapter_count: int
+    tao_coverage_matrix: str
+    tao_card_frontmatter_fields: Tuple[str, ...]
+    tao_card_sections: Tuple[str, ...]
+    tao_original_operator_ids: Tuple[str, ...]
     primary_benchmark_artifacts: Tuple[str, ...]
     required_outline_sections: Tuple[Tuple[str, str], ...]
     expected_demo_outline_count: int
@@ -233,6 +245,9 @@ def load_manifest(path: Path) -> Tuple[Optional[ContractManifest], List[Finding]
         "progress_schema_version",
         "tao_chapter_count",
         "tao_operator_count",
+        "tao_schema_version",
+        "tao_operator_manifest_version",
+        "tao_required_chapter_count",
         "expected_demo_outline_count",
     ):
         if key not in raw:
@@ -308,12 +323,53 @@ def load_manifest(path: Path) -> Tuple[Optional[ContractManifest], List[Finding]
             )
         )
 
+    tao_coverage_matrix = raw.get("tao_coverage_matrix")
+    if not isinstance(tao_coverage_matrix, str) or ARTIFACT_PATH_RE.fullmatch(tao_coverage_matrix) is None:
+        findings.append(
+            Finding(
+                "manifest-tao-coverage-path",
+                "tao_coverage_matrix must be a relative Markdown path",
+                path,
+            )
+        )
+
+    tao_string_arrays: dict[str, object] = {
+        "tao_card_frontmatter_fields": raw.get("tao_card_frontmatter_fields"),
+        "tao_card_sections": raw.get("tao_card_sections"),
+        "tao_original_operator_ids": raw.get("tao_original_operator_ids"),
+    }
+    for key, value in tao_string_arrays.items():
+        if (
+            not isinstance(value, list)
+            or not value
+            or any(not isinstance(item, str) or not item.strip() for item in value)
+        ):
+            findings.append(
+                Finding(
+                    "manifest-tao-array-type",
+                    "{} must be a non-empty string array".format(key),
+                    path,
+                )
+            )
+        elif len(set(value)) != len(value):
+            findings.append(
+                Finding(
+                    "manifest-tao-array-duplicate",
+                    "{} must contain unique values".format(key),
+                    path,
+                )
+            )
+
     if findings:
         return None, findings
 
     assert isinstance(artifacts, list)
     assert isinstance(sections, list)
     assert isinstance(tao_sections, list)
+    assert isinstance(tao_coverage_matrix, str)
+    assert isinstance(tao_string_arrays["tao_card_frontmatter_fields"], list)
+    assert isinstance(tao_string_arrays["tao_card_sections"], list)
+    assert isinstance(tao_string_arrays["tao_original_operator_ids"], list)
     manifest = ContractManifest(
         manifest_version=raw["manifest_version"],
         setup_skill_version=raw["setup_skill_version"],
@@ -323,6 +379,11 @@ def load_manifest(path: Path) -> Tuple[Optional[ContractManifest], List[Finding]
         tao_chapter_count=raw["tao_chapter_count"],
         tao_operator_count=raw["tao_operator_count"],
         tao_operator_sections=tuple(tao_sections),
+        tao_required_chapter_count=raw["tao_required_chapter_count"],
+        tao_coverage_matrix=tao_coverage_matrix,
+        tao_card_frontmatter_fields=tuple(tao_string_arrays["tao_card_frontmatter_fields"]),
+        tao_card_sections=tuple(tao_string_arrays["tao_card_sections"]),
+        tao_original_operator_ids=tuple(tao_string_arrays["tao_original_operator_ids"]),
         primary_benchmark_artifacts=tuple(artifacts),
         required_outline_sections=tuple((item["rule"], item["demo"]) for item in sections),
         expected_demo_outline_count=raw["expected_demo_outline_count"],

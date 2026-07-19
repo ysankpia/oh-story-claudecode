@@ -2,6 +2,9 @@
 id: tao-01-name-and-reality
 chapters: [1, 32]
 title: 名实与不可尽言
+domain: identity-language
+coverage_role: primary
+risk_level: medium
 ---
 # 名实与不可尽言
 
@@ -34,3 +37,9 @@ title: 名实与不可尽言
 
 ## 禁止说教方式
 禁止让智者直接解释“道可道”；用称号授予、身份撤销、误认和实际责任呈现。
+
+## 历史语境
+涉及名与道的认识、秩序和治理语境，不等于现代身份政治的单一结论。
+
+## 现代化边界
+可以用于身份、标签和叙述冲突；不得借“不可言说”否定证据、受害者命名权或事实核验。

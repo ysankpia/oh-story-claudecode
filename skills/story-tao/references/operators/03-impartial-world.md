@@ -2,6 +2,9 @@
 id: tao-03-impartial-world
 chapters: [5]
 title: 天地不仁
+domain: fate-responsibility
+coverage_role: primary
+risk_level: high
 ---
 # 天地不仁
 
@@ -34,3 +37,9 @@ title: 天地不仁
 
 ## 禁止说教方式
 不让角色朗诵“万物为刍狗”；通过无差别灾害与有差别救援形成张力。
+
+## 历史语境
+原章以天地运行和祭祀意象讨论非人格化秩序，不是对统治冷酷的授权。
+
+## 现代化边界
+不可用自然无偏为施害者免责；现代叙事必须保留制度救济与弱者保护问题。

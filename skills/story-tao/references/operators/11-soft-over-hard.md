@@ -2,6 +2,9 @@
 id: tao-11-soft-over-hard
 chapters: [36, 76, 78]
 title: 柔弱胜刚强
+domain: power-adaptation
+coverage_role: primary
+risk_level: high
 ---
 # 柔弱胜刚强
 
@@ -34,3 +37,9 @@ title: 柔弱胜刚强
 
 ## 禁止说教方式
 不反复用水滴石穿比喻；通过受力、恢复、路径变化和边界成本表现。
+
+## 历史语境
+柔弱与刚强是力量和生命状态的比喻，不是否定必要的边界、保护和公共强制。
+
+## 现代化边界
+不可把弱者自动道德化，也不可把暴力威胁下的自卫写成“不够柔软”。

@@ -19,6 +19,8 @@ Professional authors follow a three-step method:
 Built around four pillars: reverse-engineering hits · plot modularization · layered state management · human-AI collaboration.
 
 > Starting in v0.8.0: the repository is now a Claude Code and Codex writing engine. All 14 skills, the shared hook core, and dual-platform deployment remain; other runtime installation, deployment, and publishing paths are removed. Existing projects should rerun `/story-setup` and start a fresh session.
+
+> Starting in v0.10.0: the Tao Te Ching thought contract is executed by `scripts/story_tao_runtime.py` and remains mandatory across market scans, deconstruction, import, long/short writing, review, prose cleanup, and cover direction. Authors may recalibrate the proposition but cannot disable the layer. Existing prose is not rewritten.
 >
 > For earlier versions, see [CHANGELOG.md](CHANGELOG.md).
 
@@ -109,7 +111,7 @@ npx skills add worldwonderer/oh-story-claudecode -y -g
 | `story-setup` | `/story-setup` / `$story-setup` | Environment setup — Claude Code / Codex (safe merge) |
 | `story` | `/story` / `$story` | Toolbox router — routes fuzzy intents to the matching skill |
 | `story-long-write` | `/story-long-write` | Long-form writing — outline building, character design, prose output |
-| `story-tao` | `/story-tao` / `$story-tao` | Tao Te Ching thought design — propositions, character positions, and plot tests |
+| `story-tao` | `/story-tao` / `$story-tao` | Mandatory thought core — 60 thematic cards covering all 81 chapters, plus contracts, evidence mapping, runtime state, and Thought Gate |
 | `story-long-analyze` | `/story-long-analyze` | Long-form deconstruction — Golden First 3 Chapters, payoff design, pacing analysis |
 | `story-long-scan` | `/story-long-scan` | Long-form trend scan — Qidian/Fanqie/Jinjiang market trends |
 | `story-short-write` | `/story-short-write` | Short-form writing — emotion design, twist crafting, polish & delivery |

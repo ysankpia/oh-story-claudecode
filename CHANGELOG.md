@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.10.0
+
+> 《道德经》思想内核可执行化 · 60 张命题卡、81 章原典与项目契约继续保留。
+
+### Added
+
+- 新增 `scripts/story_tao_runtime.py`，统一执行 `match`、`ensure`、`summarize`、`map-evidence` 和 `advance`。
+- 项目思想契约增加真实校验、版本字段、迁移和阻断错误码；新增运行时行为测试。
+- 原典校验增加正文非空和来源元数据检查。
+
+### Changed
+
+- `story-setup` 升级到 `1.5.0`，`agents_version` 升级到 `22`；已部署项目须重新 setup 并新开会话。
+
+## v0.9.0
+
+> 《道德经》从可选命题 skill 升级为所有文学流程的强制思想内核；产品仍名 Oh Story。
+
+### Breaking changes
+
+- 长短篇、拆文与导入会自动生成思想契约；缺失或损坏不再静默跳过。
+- 审稿固定输出 Thought Gate，并影响发布结论但不计入商业数值评分。
+- `story-setup` 升级到 `1.4.0`，`agents_version` 升级到 `21`，已部署项目须重新 setup 并新开会话。
+
+### Added
+
+- `story-tao` 命题库由 15 张扩展到 60 张，主题分组覆盖《道德经》全部 81 章；原 15 个 ID 保持稳定。
+- 新增八十一章覆盖矩阵、自动匹配校准样例，以及政治、战争、刑罚、贫困和社会秩序卡的历史语境与现代化边界。
+
 ## v0.8.0
 
 > Claude Code / Codex 双端收敛 · 14 个小说 skill 与思想引擎保留 · 共享 hook 契约改为双端验证

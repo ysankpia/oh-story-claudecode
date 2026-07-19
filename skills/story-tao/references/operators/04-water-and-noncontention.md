@@ -2,6 +2,9 @@
 id: tao-04-water-and-noncontention
 chapters: [8, 66]
 title: 上善若水与不争
+domain: power-relationship
+coverage_role: primary
+risk_level: medium
 ---
 # 上善若水与不争
 
@@ -34,3 +37,9 @@ title: 上善若水与不争
 
 ## 禁止说教方式
 不靠水的抒情旁白；用路径、容器、低处汇流和权力重新分配呈现。
+
+## 历史语境
+水与处下是德性和治理的比喻，不是对所有冲突采取退让的命令。
+
+## 现代化边界
+不得把受害者忍耐、沉默或放弃边界包装为“不争”。

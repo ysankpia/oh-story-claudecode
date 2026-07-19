@@ -2,10 +2,14 @@
 
 ## 当前版本
 
-- `setup_skill_version: 1.3.0`
-- `agents_version: 20`
+- `setup_skill_version: 1.5.0`
+- `agents_version: 22`
 
-`.story-deployed` 缺失字段、`agents_version` 非整数或小于 `20` 时，都视为待更新部署。项目版本大于 `20` 时停止部署，先更新 oh-story-claudecode，不能用旧 skill 覆盖新部署。
+`.story-deployed` 缺失字段、`agents_version` 非整数或小于 `22` 时，都视为待更新部署。项目版本大于 `22` 时停止部署，先更新 oh-story-claudecode，不能用旧 skill 覆盖新部署。
+
+## v0.10.0：思想内核可执行化
+
+所有文学流程改为强制调用 `story-tao` bundled runtime。旧 `status: confirmed` 长篇契约会迁移为 `active`，并补建 `追踪/思想进展.md`；旧正文不会被回写。升级后必须重新运行 setup 并新开会话，使 Claude/Codex agent 模板加载 `thought_contract_summary`、`thought_evidence` 和 `THOUGHT_GATE` 新契约。
 
 ## v0.8.0：Claude Code / Codex 双端收敛
 
@@ -39,6 +43,6 @@
 
 1. 在项目根目录运行 `/story-setup`（Codex 使用 `$story-setup`）。
 2. 选择 `claude-code`、`codex` 或 `claude-code,codex`。
-3. 确认 `.story-deployed` 写入 `agents_version: 20` 和 `setup_skill_version: 1.3.0`。
+3. 确认 `.story-deployed` 写入 `agents_version: 22` 和 `setup_skill_version: 1.5.0`。
 4. 新开会话；Codex 还需 trust 项目 `.codex/` 层并审核 `/hooks`。
 5. 运行 `/story-review`。`Effective Mode: full/lean` 表示 agents 已加载；出现 fallback 时按报告提示重新部署或使用 solo。

@@ -2,6 +2,9 @@
 id: tao-12-reversal
 chapters: [40]
 title: 反者道之动
+domain: feedback-consequence
+coverage_role: primary
+risk_level: medium
 ---
 # 反者道之动
 
@@ -34,3 +37,9 @@ title: 反者道之动
 
 ## 禁止说教方式
 禁止在反转后由旁白宣布哲理；让早期每次成功都留下可回看的副作用。
+
+## 历史语境
+“反”包含返回、循环和反向运动，不是任意戏剧反转的标签。
+
+## 现代化边界
+必须给出可追溯的行动—反馈—后果链，不能把巧合、作者强行翻牌或受害者责任化称为道。

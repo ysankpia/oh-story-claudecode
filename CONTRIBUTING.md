@@ -63,7 +63,7 @@ PR 自动运行 `.github/workflows/cross-platform.yml`。static-check job 跑以
 - `python3 scripts/skill-numbering.py check` — 工作流编号连续性、引用可绑定性及小数标签守卫
 - `scripts/check-current-skill-contracts.sh` — 按 `scripts/current-contract.json` 校验当前版本 / Phase / schema / 主产物 / 细纲契约，并拦截历史路径与静默兼容分支
 - `python3 scripts/test-current-skill-contracts.py` — current-contract manifest 与主产物 fail-fast 语义回归
-- `scripts/story_tao_contract.py` + `scripts/test-story-tao-contract.py` — 《道德经》81 章、15 张命题卡及长篇/审稿接入契约
+- `scripts/story_tao_contract.py` + `scripts/story_tao_runtime.py` + `scripts/test-story-tao-contract.py` + `scripts/test-story-tao-runtime.py` — 《道德经》81 章、60 张命题卡、项目契约与运行时接入
 - `scripts/check-hook-regex-sync.sh` — hook 伏笔状态检测行为
 - `scripts/check-shared-files.sh` — 共享 runtime 资产清单 + 跨 skill reference 副本一致性
 - `scripts/check-story-setup-deployment.sh` — story-setup 部署完整性

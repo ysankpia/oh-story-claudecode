@@ -2,6 +2,9 @@
 id: tao-07-stillness-and-return
 chapters: [15, 16]
 title: 守静观复
+domain: time-observation
+coverage_role: primary
+risk_level: medium
 ---
 # 守静观复
 
@@ -34,3 +37,9 @@ title: 守静观复
 
 ## 禁止说教方式
 不写长段内心悟道；通过重复动作、沉淀物、恢复的旧习和截止时间呈现。
+
+## 历史语境
+强调观复、知常和不妄作的修养路径，不是对现实危险的普遍延迟。
+
+## 现代化边界
+必须写出等待的截止点、风险承担者和必要行动，不能用静观替代调查或救援。

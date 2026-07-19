@@ -33,6 +33,8 @@ jobs:
         run: python3 scripts/story_tao_contract.py
       - name: Story-tao contract regression
         run: python3 scripts/test-story-tao-contract.py
+      - name: Story-tao runtime regression
+        run: python3 scripts/test-story-tao-runtime.py
       - name: Check hook-regex sync
         run: bash scripts/check-hook-regex-sync.sh
       - name: Check shared-file consistency
@@ -113,6 +115,8 @@ jobs:
       - name: Workflow numbering regression
         shell: bash
         run: bash scripts/test-skill-numbering.sh
+      - name: Story-tao runtime regression
+        run: python scripts/test-story-tao-runtime.py
       - name: Check shared-file consistency (Windows Git Bash)
         shell: bash
         run: bash scripts/check-shared-files.sh
@@ -169,6 +173,8 @@ jobs:
         run: bash scripts/test-story-continuity.sh
       - name: Workflow numbering regression
         run: bash scripts/test-skill-numbering.sh
+      - name: Story-tao runtime regression
+        run: python3 scripts/test-story-tao-runtime.py
       - name: Punctuation normalizer regression
         run: node scripts/test-normalize-punctuation.js
       - name: Scan runtime regression

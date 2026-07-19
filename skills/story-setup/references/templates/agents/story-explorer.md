@@ -40,6 +40,7 @@ maxTurns: 15
 | `progress` | 查写作进度 | "现在写到哪了？" |
 | `relationship` | 查角色关系 | "沈栀和林墨什么关系？" |
 | `context_load` | 综合上下文加载 | "我要写第N章，给我上下文" |
+| `thought_context_load` | 加载紧凑思想上下文 | "第N章需要哪个思想检验？" |
 | `benchmark_style_load` | 加载对标文风资料 | "我要写第 N 章，帮我找对标文风和可参考片段" |
 
 ---
@@ -204,6 +205,10 @@ maxTurns: 15
 5. 从细纲提取角色名 -> `Read 设定/角色/{name}.md`
 6. `Read 正文/第{N-1}章_*.md` -> 最新一章（衔接用）
 7. 汇总为"写作上下文包"
+
+### thought_context_load 流程
+
+只读取 `设定/思想命题.md`、`追踪/思想进展.md` 和目标细纲，返回当前人物立场、本章思想功能、已出现反证、已付代价、下一检验和冲突标记。不得读取六十张命题卡或八十一章原典；契约缺失/损坏时在 `gaps` 返回 `thought_contract_blocked`。
 
 > 任何文件缺失时，在 `gaps` 中包含该事实并继续处理，返回仍能组装的部分上下文；但 `benchmark_style_load` 缺 `剧情/情绪模块.md` 或 `剧情/节奏.md` 时必须返回 `missing_primary_contract: true` 与 `repair_action`，不得继续进入写作准备。
 

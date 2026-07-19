@@ -2,6 +2,9 @@
 id: tao-13-subtraction-and-nonaction
 chapters: [37, 48, 57]
 title: 为道日损与无为
+domain: governance-intervention
+coverage_role: primary
+risk_level: high
 ---
 # 为道日损与无为
 
@@ -34,3 +37,9 @@ title: 为道日损与无为
 
 ## 禁止说教方式
 不让高人解释“无为而无不为”；通过删令、放权、停止追逐和结果反馈呈现。
+
+## 历史语境
+无为、日损涉及治理和修身中的减少妄为，不是撤销一切照护、规则和专业责任。
+
+## 现代化边界
+撤除干预前必须说明保护底线、风险承担者和失败后的补救机制。

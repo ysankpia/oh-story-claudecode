@@ -1,0 +1,87 @@
+# 八十一章命题覆盖矩阵
+
+每章第一张卡是主覆盖卡，逗号后的卡为辅助映射。所有章节均可进入自动匹配；`risk_level` 只用于提示历史语境、现代误读和说教风险，不屏蔽卡片。
+
+| 章 | 主命题卡 | 辅助命题卡 | 主题域 | 风险 | 新书匹配 | 拆文映射 |
+|---:|---|---|---|---|---|---|
+| 1 | tao-01-name-and-reality |  | identity-language | medium | yes | yes |
+| 2 | tao-02-mutual-arising | tao-14-create-without-owning | identity-relationship | medium | yes | yes |
+| 3 | tao-16-esteem-and-control |  | governance-desire | high | yes | yes |
+| 4 | tao-17-empty-vessel |  | source-capacity | low | yes | yes |
+| 5 | tao-03-impartial-world |  | fate-responsibility | high | yes | yes |
+| 6 | tao-17-empty-vessel |  | source-capacity | low | yes | yes |
+| 7 | tao-18-behind-and-lasting |  | leadership-selflessness | medium | yes | yes |
+| 8 | tao-04-water-and-noncontention |  | power-relationship | medium | yes | yes |
+| 9 | tao-05-enough-and-withdrawal |  | desire-boundary | medium | yes | yes |
+| 10 | tao-14-create-without-owning |  | creation-ownership | high | yes | yes |
+| 11 | tao-06-use-of-emptiness |  | space-absence | low | yes | yes |
+| 12 | tao-19-sensory-appetite |  | desire-sensory | medium | yes | yes |
+| 13 | tao-20-honor-and-body |  | honor-vulnerability | high | yes | yes |
+| 14 | tao-21-formless-truth |  | truth-perception | high | yes | yes |
+| 15 | tao-07-stillness-and-return |  | time-observation | medium | yes | yes |
+| 16 | tao-07-stillness-and-return |  | time-observation | medium | yes | yes |
+| 17 | tao-22-quiet-leadership |  | leadership-knowledge | high | yes | yes |
+| 18 | tao-23-ritual-after-loss |  | ethics-institutions | high | yes | yes |
+| 19 | tao-08-uncarved-simplicity |  | identity-desire | medium | yes | yes |
+| 20 | tao-24-outsider-and-belonging |  | belonging-alienation | medium | yes | yes |
+| 21 | tao-21-formless-truth |  | truth-perception | high | yes | yes |
+| 22 | tao-09-bending-and-less |  | negotiation-boundary | high | yes | yes |
+| 23 | tao-25-sparse-speech |  | speech-duration | medium | yes | yes |
+| 24 | tao-26-self-display-collapse |  | self-display | medium | yes | yes |
+| 25 | tao-27-natural-scale |  | scale-foundation | high | yes | yes |
+| 26 | tao-28-weight-and-stillness |  | stability-temper | low | yes | yes |
+| 27 | tao-29-no-discard |  | repair-inclusion | high | yes | yes |
+| 28 | tao-08-uncarved-simplicity |  | identity-desire | medium | yes | yes |
+| 29 | tao-30-unpossessable-world |  | complex-governance | high | yes | yes |
+| 30 | tao-31-war-aftermath |  | war-violence | high | yes | yes |
+| 31 | tao-31-war-aftermath |  | war-violence | high | yes | yes |
+| 32 | tao-01-name-and-reality |  | identity-language | medium | yes | yes |
+| 33 | tao-10-self-knowledge |  | self-knowledge | medium | yes | yes |
+| 34 | tao-14-create-without-owning |  | creation-ownership | high | yes | yes |
+| 35 | tao-32-bland-hidden-excellence |  | hidden-excellence | medium | yes | yes |
+| 36 | tao-11-soft-over-hard |  | power-adaptation | high | yes | yes |
+| 37 | tao-13-subtraction-and-nonaction |  | governance-intervention | high | yes | yes |
+| 38 | tao-23-ritual-after-loss |  | ethics-institutions | high | yes | yes |
+| 39 | tao-27-natural-scale |  | scale-foundation | high | yes | yes |
+| 40 | tao-12-reversal |  | feedback-consequence | medium | yes | yes |
+| 41 | tao-32-bland-hidden-excellence |  | hidden-excellence | medium | yes | yes |
+| 42 | tao-33-harmony-of-opposites |  | polarity-harmony | medium | yes | yes |
+| 43 | tao-34-soft-entry |  | soft-influence | medium | yes | yes |
+| 44 | tao-05-enough-and-withdrawal |  | desire-boundary | medium | yes | yes |
+| 45 | tao-35-incomplete-excellence |  | imperfection-capacity | low | yes | yes |
+| 46 | tao-36-enough-and-desire |  | desire-sufficiency | medium | yes | yes |
+| 47 | tao-22-quiet-leadership |  | leadership-knowledge | high | yes | yes |
+| 48 | tao-13-subtraction-and-nonaction |  | governance-intervention | high | yes | yes |
+| 49 | tao-37-trust-without-fixed-heart |  | trust-empathy | high | yes | yes |
+| 50 | tao-38-life-and-death-risk |  | life-risk | high | yes | yes |
+| 51 | tao-14-create-without-owning |  | creation-ownership | high | yes | yes |
+| 52 | tao-39-source-and-apertures |  | origin-boundary | medium | yes | yes |
+| 53 | tao-40-shortcut-and-ostentation |  | governance-corruption | high | yes | yes |
+| 54 | tao-41-cultivation-scales |  | scale-ethics | medium | yes | yes |
+| 55 | tao-42-infant-harmony |  | vitality-harmony | medium | yes | yes |
+| 56 | tao-43-hidden-sameness |  | identity-impartiality | high | yes | yes |
+| 57 | tao-13-subtraction-and-nonaction |  | governance-intervention | high | yes | yes |
+| 58 | tao-44-fortune-without-fixed-pole |  | fortune-ambiguity | medium | yes | yes |
+| 59 | tao-45-thrift-and-deep-roots |  | resilience-reserve | low | yes | yes |
+| 60 | tao-46-small-fish-governance |  | governance-restraint | high | yes | yes |
+| 61 | tao-47-lower-to-connect |  | diplomacy-power | high | yes | yes |
+| 62 | tao-29-no-discard |  | repair-inclusion | high | yes | yes |
+| 63 | tao-15-small-beginnings |  | causality-prevention | medium | yes | yes |
+| 64 | tao-15-small-beginnings |  | causality-prevention | medium | yes | yes |
+| 65 | tao-48-knowledge-and-governance |  | governance-knowledge | high | yes | yes |
+| 66 | tao-04-water-and-noncontention |  | power-relationship | medium | yes | yes |
+| 67 | tao-49-three-treasures |  | leadership-virtue | medium | yes | yes |
+| 68 | tao-50-nonviolent-excellence |  | conflict-leadership | high | yes | yes |
+| 69 | tao-51-guest-and-host |  | strategy-restraint | high | yes | yes |
+| 70 | tao-52-knowing-ignorance |  | epistemic-humility | medium | yes | yes |
+| 71 | tao-52-knowing-ignorance |  | epistemic-humility | medium | yes | yes |
+| 72 | tao-53-no-oppression |  | authority-boundary | high | yes | yes |
+| 73 | tao-54-delayed-justice |  | justice-consequence | high | yes | yes |
+| 74 | tao-55-no-substitute-punishment |  | punishment-agency | high | yes | yes |
+| 75 | tao-56-extraction-and-hunger |  | exploitation-poverty | high | yes | yes |
+| 76 | tao-11-soft-over-hard |  | power-adaptation | high | yes | yes |
+| 77 | tao-57-bow-of-heaven |  | redistribution-balance | high | yes | yes |
+| 78 | tao-11-soft-over-hard |  | power-adaptation | high | yes | yes |
+| 79 | tao-58-contract-and-resentment |  | reciprocity-repair | high | yes | yes |
+| 80 | tao-59-small-community |  | community-scale | high | yes | yes |
+| 81 | tao-60-plain-truth |  | speech-integrity | medium | yes | yes |
