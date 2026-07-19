@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.8.0
+
+> Claude Code / Codex 双端收敛 · 14 个小说 skill 与思想引擎保留 · 共享 hook 契约改为双端验证
+
+### Breaking changes
+
+- 仅保留 Claude Code 与 Codex 的安装、部署、agent、hook、CI 和发布入口。
+- `story-setup` 只接受 `claude-code`、`codex` 或两者组合；已部署的旧 adapter 目录不会被自动删除。
+
+### Changed
+
+- 版本升级到 `0.8.0`；`setup_skill_version` 升级到 `1.3.0`，`agents_version` 升级到 `20`。
+- 正文网 parity 改为直接验证 Claude Code 共享 JavaScript core 与 Codex Python hook。
+
 ## v0.7.0
 
 > 多端适配再扩两家（ZCode / Reasonix）· hook 核统一到共享 node 核 + 六端 parity 锁 · 长篇「剧情单元」概念统一并接入拆书产物 · 去 AI 味闸口机器化（毒句式确定性检测 + 欠账门）· 契约体检与脚本加固

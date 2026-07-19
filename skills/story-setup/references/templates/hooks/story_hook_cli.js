@@ -3,7 +3,7 @@
 
 // story_hook_cli.js — Claude Code bash hook 的 node 桥
 // Claude 侧 hook 是 bash（settings.json 挂 bash 脚本），归核逻辑走这里 require 的
-// 共享核 story_hook_core.js——和 OpenCode/ZCode 用的是同一份，由 check-shared-files
+// 共享核 story_hook_core.js——和 Claude Code/Codex 用的是同一份，由 check-shared-files
 // 保证字节相同。归核（单份实现在 core）的面：正文网/字数（prose-net）、路径抽取
 // （extract-target）、git commit 侦测（is-git-commit）、连续性（continuity）。
 // 尚未归核、各端独立实现的面：
@@ -102,7 +102,7 @@ if (command === "extract-target") {
   }
 } else if (command === "is-git-commit") {
   // git commit 侦测。命令优先取 STORY_COMMIT_COMMAND，缺省再从 HOOK_INPUT 挖 command/cmd/script。
-  // 用共享核 isGitCommitCommand（js 分词语义，与 OpenCode/ZCode 一致；对「引号内分隔符」这类
+  // 用共享核 isGitCommitCommand（js 分词语义，与 Claude Code/Codex 一致；对「引号内分隔符」这类
   // 边界与旧 python shlex 有已文档化、仅 advisory 的差异）。是 git commit → exit 0，否则 exit 1。
   let raw = process.env.STORY_COMMIT_COMMAND || ""
   if (!raw) {

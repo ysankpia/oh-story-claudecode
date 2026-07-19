@@ -69,7 +69,7 @@ echo "  OK Windows encoding safety (UTF-8 stdio + file reads)"
 
 # Prose backstop parity surface: Codex has no PostToolUse, so the light prose net runs at Stop
 # (sweeping git-changed 正文) and continuity runs at SessionStart. These must stay present.
-assert_grep 'def prose_net_findings' "$HOOK_PY" "Codex hook must carry the light prose net (parity with claude/opencode)"
+assert_grep 'def prose_net_findings' "$HOOK_PY" "Codex hook must carry the light prose net (parity with Claude Code)"
 assert_grep 'def find_changed_prose_files' "$HOOK_PY" "Codex Stop sweep must discover git-changed prose"
 assert_grep 'def continuity_findings' "$HOOK_PY" "Codex hook must carry the continuity backstop (追踪 staleness + dup-title)"
 
@@ -297,7 +297,7 @@ for path in sorted(Path('skills/story-setup/references/codex/agents').glob('*.to
     instructions = data['developer_instructions']
     assert path.name == f'{name}.toml', f'{path}: filename/name mismatch'
     assert '.codex/skills/story-setup/references/agent-references/' in instructions
-    for stale in ('.claude/skills/', '.opencode/skills/', '{项目根}/skills/story-setup/references/agent-references/'):
+    for stale in ('.claude/skills/', '{项目根}/skills/story-setup/references/agent-references/'):
         assert stale not in instructions, f'{path}: stale cross-CLI reference fallback {stale}'
     assert 'agent_type' in instructions, f'{path}: missing Codex agent_type guidance'
     assert 'subagent_type' not in instructions, f'{path}: leaked Claude subagent_type wording'
@@ -355,7 +355,7 @@ for path in sorted(Path(sys.argv[1]).glob("*.toml")):
         continue  # this agent has no numbered reference list
     assert text.count("1. `{项目根}/.codex/skills/story-setup/references/agent-references/") == 1, \
         f"{path.name}: numbered reference list must contain the canonical Codex path once"
-    for stale in (".claude/skills/", ".opencode/skills/", "{项目根}/skills/story-setup/references/agent-references/"):
+    for stale in (".claude/skills/", "{项目根}/skills/story-setup/references/agent-references/"):
         assert stale not in text, f"{path.name}: stale cross-CLI reference fallback {stale}"
 PY
 

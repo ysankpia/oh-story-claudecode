@@ -135,15 +135,9 @@ LEGACY_RULES = (
         ("skills/story-setup/SKILL.md",),
     ),
     AbsentRule(
-        "opencode-old-reference-prefix",
-        "OpenCode agents use the deployed skills/ reference path only",
-        r"\.opencode/skills/story-setup/references/agent-references/",
-        ("skills/story-setup/references/opencode/agents",),
-    ),
-    AbsentRule(
         "codex-old-reference-prefix",
         "Codex agents use the deployed .codex/skills reference path only",
-        r"\.(?:claude|opencode)/skills/story-setup/references/agent-references/|\{项目根\}/skills/story-setup/references/agent-references/",
+        r"\.claude/skills/story-setup/references/agent-references/|\{项目根\}/skills/story-setup/references/agent-references/",
         ("skills/story-setup/references/codex/agents",),
     ),
 )

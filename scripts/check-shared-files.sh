@@ -90,7 +90,7 @@ list_reference_basenames() {
   local path
   while IFS= read -r path; do
     case "$path" in
-      */.gitkeep|*/opencode/*) ;;
+      */.gitkeep) ;;
       *) printf '%s\n' "${path##*/}" ;;
     esac
   done <<< "$REFERENCE_FILES"

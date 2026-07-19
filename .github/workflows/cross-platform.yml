@@ -1,4 +1,4 @@
-name: Cross-platform smoke test
+name: Claude and Codex smoke test
 on: [push, pull_request]
 
 permissions:
@@ -12,8 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          # Node 22.6+ lets test-prose-net-parity execute plugin.ts directly
-          # instead of silently falling back to string-anchor checks only.
+          # Node runs the shared Claude hook core during parity checks.
           node-version: 22
       - uses: actions/setup-python@v5
         with:
@@ -50,7 +49,7 @@ jobs:
         run: bash scripts/test-degeneration.sh
       - name: Prose backstop hook regression
         run: bash scripts/test-prose-backstop-hook.sh
-      - name: Prose net 3-CLI parity
+      - name: Claude/Codex prose-net parity
         run: bash scripts/test-prose-net-parity.sh
       - name: Story continuity backstop regression
         run: bash scripts/test-story-continuity.sh
@@ -60,18 +59,10 @@ jobs:
         run: bash scripts/check-claude-adapter.sh
       - name: Check Codex adapter
         run: bash scripts/check-codex-adapter.sh
-      - name: Check OpenCode adapter
-        run: bash scripts/check-opencode-adapter.sh
-      - name: Check OpenClaw skill compatibility
-        run: bash scripts/check-openclaw-skills.sh
-      - name: Check ZCode adapter
-        run: bash scripts/check-zcode-adapter.sh
-      - name: Check Reasonix adapter
-        run: bash scripts/check-reasonix-adapter.sh
       - name: Test Codex hook adapter
         run: bash scripts/test-codex-hooks.sh
-      - name: Test ZCode hook adapter
-        run: bash scripts/test-zcode-hooks.sh
+      - name: Check dual-platform public surface
+        run: python3 scripts/test-dual-platform-surface.py
       - name: Guard against bare python3 invocations
         run: bash scripts/check-python-invocation.sh
       - name: Guard hook locale safety (LC_ALL=C + no full-width char classes)
@@ -113,7 +104,7 @@ jobs:
       - name: Prose backstop hook regression
         shell: bash
         run: bash scripts/test-prose-backstop-hook.sh
-      - name: Prose net 3-CLI parity
+      - name: Claude/Codex prose-net parity
         shell: bash
         run: bash scripts/test-prose-net-parity.sh
       - name: Story continuity backstop regression
@@ -132,9 +123,6 @@ jobs:
       - name: Test Codex hook adapter
         shell: bash
         run: bash scripts/test-codex-hooks.sh
-      - name: Test ZCode hook adapter
-        shell: bash
-        run: bash scripts/test-zcode-hooks.sh
       - name: Setup Chrome
         uses: browser-actions/setup-chrome@v1
         with:
@@ -175,7 +163,7 @@ jobs:
         run: bash scripts/test-degeneration.sh
       - name: Prose backstop hook regression
         run: bash scripts/test-prose-backstop-hook.sh
-      - name: Prose net 3-CLI parity
+      - name: Claude/Codex prose-net parity
         run: bash scripts/test-prose-net-parity.sh
       - name: Story continuity backstop regression
         run: bash scripts/test-story-continuity.sh
@@ -191,8 +179,6 @@ jobs:
         run: bash scripts/check-codex-adapter.sh
       - name: Test Codex hook adapter
         run: bash scripts/test-codex-hooks.sh
-      - name: Test ZCode hook adapter
-        run: bash scripts/test-zcode-hooks.sh
       - name: Setup Chrome
         uses: browser-actions/setup-chrome@v1
         with:

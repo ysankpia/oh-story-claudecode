@@ -10,10 +10,10 @@
 # 检测器，是独立的轻量网（毒句式规则与 check-ai-patterns.js 的同名规则统一规格）。
 #
 # 覆盖范围：只在 PostToolUse 的 Write|Edit|MultiEdit 上触发。cat>/tee/cp/mv 等用 Bash
-# 写正文的路径绕过本 hook（Claude/OpenCode 侧 Bash 只做 pre-guard，无 post-write 兜底）；
+# 写正文的路径绕过本 hook（Claude Code 侧 Bash 只做 pre-guard，无 post-write 兜底）；
 # 这类路径由 Codex 的 Stop 回合末 git 改动集扫描兜全。已知边界，非缺陷。
 #
-# 网与字数逻辑走 node 共享核 story_hook_core.js（和 OpenCode/ZCode 同一份），只留 bash
+# 网与字数逻辑走 node 共享核 story_hook_core.js（和 Claude Code/Codex 同一份），只留 bash
 # 做事件路由与文件类型判定。node 天生按 UTF-8 写 stdout，免掉旧内嵌 python 的 cp936 体操。
 #
 # 非阻塞（exit 0，advisory 提醒，不挡写作）；无发现时完全静默（不污染 context）；

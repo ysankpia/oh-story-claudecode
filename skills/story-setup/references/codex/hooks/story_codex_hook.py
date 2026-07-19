@@ -365,7 +365,7 @@ def find_changed_prose_files(root: Path) -> list[Path]:
 
 def _wordcount_finding(abs_path: Path, text: str) -> str | None:
     """字数欠账（仅长篇分章正文）：从 大纲/细纲_第N章*.md 读「字数目标」，实际 < 90% 提示。
-    与 check-prose-after-write.sh 内嵌 python / opencode wordcountFinding 同实现。"""
+    与 check-prose-after-write.sh 内嵌 python / shared JavaScript wordcount finding 同实现。"""
     base = abs_path.name
     if abs_path.parent.name != "正文":
         return None
@@ -483,7 +483,7 @@ def extract_prose_targets_from_command(command: str) -> list[str]:
     for m in re.finditer(r">>?\s*" + token, command):  # > dest, >> dest, cat >dest
         targets.append(m.group(1))
     # Use an explicit start/separator class, not \b: \b is Unicode-aware in Python re but ASCII-only
-    # in JS, so an ASCII boundary keeps this identical to opencode plugin.ts (parity).
+    # in JS, so an ASCII boundary keeps this identical to shared JavaScript core (parity).
     for m in re.finditer(r"(?:^|[\s;&|(){}<>])(?:tee(?:\s+-a)?|touch)\s+" + token, command):
         targets.append(m.group(1))
     # cp/mv: the write destination is the last positional arg of the segment. Parse it (regex can't

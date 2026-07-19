@@ -1,7 +1,6 @@
 ---
 name: story-tao
 description: "《道德经》小说思想命题设计。把小说构想或已有长篇中的主题转化为可检验的核心命题、反命题、人物立场与情节选择，生成 `设定/思想命题.md`。触发方式：/story-tao、$story-tao、/道德经创作、‘给小说加入道德经思想’、‘用道德经深化这本书’。"
-metadata: {"openclaw":{"source":"https://github.com/worldwonderer/oh-story-claudecode"}}
 ---
 # story-tao：《道德经》小说思想命题设计
 

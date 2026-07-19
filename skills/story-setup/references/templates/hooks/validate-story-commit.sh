@@ -12,7 +12,7 @@ export HOOK_INPUT
 
 is_git_commit_command() {
   # 走 node 共享核 isGitCommitCommand：命令优先取 STORY_COMMIT_COMMAND，缺省从 HOOK_INPUT
-  # 挖 command/cmd/script。js 分词语义，与 OpenCode/ZCode 一致；对「引号内分隔符」这类边界
+  # 挖 command/cmd/script。js 分词语义，与 Claude Code/Codex 一致；对「引号内分隔符」这类边界
   # 与旧 python shlex 有已文档化、仅 advisory 的差异（不影响本 hook 的 exit 0 非阻塞语义）。
   # node 探测不到就当「非 commit」，让下方静默放行（兜底不反噬提交流程；native 安装可能
   # 无 node，此时 commit 格式提示停用，session-start.sh 会在会话起点提示一次）。
