@@ -25,6 +25,9 @@ EXPECTED_MANIFEST_KEYS = {
     "agents_version",
     "topic_decision_phase",
     "progress_schema_version",
+    "tao_chapter_count",
+    "tao_operator_count",
+    "tao_operator_sections",
     "expected_demo_outline_count",
     "primary_benchmark_artifacts",
     "required_outline_sections",
@@ -40,6 +43,9 @@ class ContractManifest:
     agents_version: int
     topic_decision_phase: int
     progress_schema_version: int
+    tao_chapter_count: int
+    tao_operator_count: int
+    tao_operator_sections: Tuple[str, ...]
     primary_benchmark_artifacts: Tuple[str, ...]
     required_outline_sections: Tuple[Tuple[str, str], ...]
     expected_demo_outline_count: int
@@ -231,6 +237,8 @@ def load_manifest(path: Path) -> Tuple[Optional[ContractManifest], List[Finding]
         "agents_version",
         "topic_decision_phase",
         "progress_schema_version",
+        "tao_chapter_count",
+        "tao_operator_count",
         "expected_demo_outline_count",
     ):
         if key not in raw:
@@ -284,17 +292,43 @@ def load_manifest(path: Path) -> Tuple[Optional[ContractManifest], List[Finding]
             )
         )
 
+    tao_sections = raw.get("tao_operator_sections")
+    if (
+        not isinstance(tao_sections, list)
+        or not tao_sections
+        or any(not isinstance(item, str) or not item.strip() for item in tao_sections)
+    ):
+        findings.append(
+            Finding(
+                "manifest-tao-section-type",
+                "tao_operator_sections must be a non-empty string array",
+                path,
+            )
+        )
+    elif len(set(tao_sections)) != len(tao_sections):
+        findings.append(
+            Finding(
+                "manifest-tao-section-duplicate",
+                "tao_operator_sections must be unique",
+                path,
+            )
+        )
+
     if findings:
         return None, findings
 
     assert isinstance(artifacts, list)
     assert isinstance(sections, list)
+    assert isinstance(tao_sections, list)
     manifest = ContractManifest(
         manifest_version=raw["manifest_version"],
         setup_skill_version=raw["setup_skill_version"],
         agents_version=raw["agents_version"],
         topic_decision_phase=raw["topic_decision_phase"],
         progress_schema_version=raw["progress_schema_version"],
+        tao_chapter_count=raw["tao_chapter_count"],
+        tao_operator_count=raw["tao_operator_count"],
+        tao_operator_sections=tuple(tao_sections),
         primary_benchmark_artifacts=tuple(artifacts),
         required_outline_sections=tuple((item["rule"], item["demo"]) for item in sections),
         expected_demo_outline_count=raw["expected_demo_outline_count"],

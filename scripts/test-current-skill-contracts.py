@@ -40,6 +40,24 @@ def test_manifest_contract() -> None:
     manifest, findings = VALIDATOR.load_manifest(manifest_path)
     require(not findings, "repository manifest should validate: {}".format(findings))
     require(manifest is not None, "repository manifest should load")
+    require(manifest.tao_chapter_count == 81, "Tao corpus must declare 81 chapters")
+    require(manifest.tao_operator_count == 15, "Tao operator library must declare 15 cards")
+    require(
+        manifest.tao_operator_sections
+        == (
+            "原典章节",
+            "基本释义",
+            "解释边界",
+            "核心命题",
+            "反命题",
+            "适用冲突",
+            "人物立场",
+            "情节转化方法",
+            "失败用法",
+            "禁止说教方式",
+        ),
+        "Tao operator card sections must remain explicit and ordered",
+    )
     require(not VALIDATOR.validate_repository(REPO_ROOT, manifest), "manifest and repository must agree")
 
     raw = json.loads(manifest_path.read_text(encoding="utf-8"))

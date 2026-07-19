@@ -30,6 +30,10 @@ jobs:
         run: bash scripts/check-current-skill-contracts.sh
       - name: Current-only skill contract regression
         run: python3 scripts/test-current-skill-contracts.py
+      - name: Check story-tao contract
+        run: python3 scripts/story_tao_contract.py
+      - name: Story-tao contract regression
+        run: python3 scripts/test-story-tao-contract.py
       - name: Check hook-regex sync
         run: bash scripts/check-hook-regex-sync.sh
       - name: Check shared-file consistency
