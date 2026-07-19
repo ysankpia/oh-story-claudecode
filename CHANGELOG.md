@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.11.0
+
+> Factory Droid becomes a first-class runtime for checkpointed, long-running novel workflows.
+
+### Added
+
+- Added `.factory/skills`, 7 generated custom droids, a Factory plugin manifest, and project hook templates.
+- Added deterministic Droid agent generation, non-destructive Factory hook merging, adapter checks, and synthetic hook tests.
+- Long-form deconstruction uses background Task calls, TaskOutput collection, and `_progress.md` checkpoints on Droid.
+
+### Changed
+
+- `story-setup` now accepts Claude Code, Codex, Droid, or any ordered combination; it is upgraded to `1.6.0` with `agents_version: 23`.
+- Project version is upgraded to `0.11.0`. Existing projects must rerun setup and start a fresh session to load Droid skills, droids, and hooks.
+
 ## v0.10.0
 
 > 《道德经》思想内核可执行化 · 60 张命题卡、81 章原典与项目契约继续保留。

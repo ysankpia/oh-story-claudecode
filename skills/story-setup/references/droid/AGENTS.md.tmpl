@@ -1,0 +1,27 @@
+<!-- oh-story:droid:start -->
+# Oh Story for Droid
+
+## Invocation
+
+- Invoke the 14 project skills with `/story-*`; `/story` is the natural-language router.
+- Run `/story-setup` after installing or updating Oh Story, then start a new Droid session.
+- Project custom droids live in `.factory/droids/*.md` and are invoked through Task with `subagent_type`.
+
+## Mandatory Thought Runtime
+
+- Every literary workflow must call the bundled `story-tao` runtime. Tao is not optional.
+- Writing, import, review, prose cleanup, and cover generation stop on `thought_contract_blocked`.
+- Author instructions, the reader contract, and locked outlines remain above the thought proposition.
+
+## Long-Running Work
+
+- Use background Task calls for independent chapter extraction batches and collect every result with TaskOutput.
+- Persist `_progress.md` and workflow state after every completed batch. Resume from files; never replay successful chapters.
+- A custom droid cannot launch nested subagents. Return checkpoint data to the parent when more delegation is required.
+
+## Deployed Infrastructure
+
+- Factory hooks: `.factory/hooks.json` and `.factory/hooks/`
+- Agent references: `.factory/skills/story-setup/references/agent-references/`
+- Deployment sentinel: `.story-deployed`
+<!-- oh-story:droid:end -->

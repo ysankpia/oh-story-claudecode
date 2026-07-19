@@ -23,6 +23,7 @@ EXPECTED_MANIFEST_KEYS = {
     "manifest_version",
     "setup_skill_version",
     "agents_version",
+    "supported_target_clis",
     "topic_decision_phase",
     "progress_schema_version",
     "tao_chapter_count",
@@ -48,6 +49,7 @@ class ContractManifest:
     manifest_version: int
     setup_skill_version: str
     agents_version: int
+    supported_target_clis: Tuple[str, ...]
     topic_decision_phase: int
     progress_schema_version: int
     tao_chapter_count: int
@@ -239,6 +241,28 @@ def load_manifest(path: Path) -> Tuple[Optional[ContractManifest], List[Finding]
     elif not SEMVER_RE.fullmatch(setup_version):
         findings.append(Finding("manifest-value-format", "setup_skill_version must be x.y.z", path))
 
+    target_clis = raw.get("supported_target_clis")
+    if (
+        not isinstance(target_clis, list)
+        or not target_clis
+        or any(not isinstance(item, str) or not item.strip() for item in target_clis)
+    ):
+        findings.append(
+            Finding(
+                "manifest-target-cli-type",
+                "supported_target_clis must be a non-empty string array",
+                path,
+            )
+        )
+    elif len(set(target_clis)) != len(target_clis):
+        findings.append(
+            Finding(
+                "manifest-target-cli-duplicate",
+                "supported_target_clis must contain unique values",
+                path,
+            )
+        )
+
     for key in (
         "agents_version",
         "topic_decision_phase",
@@ -364,6 +388,7 @@ def load_manifest(path: Path) -> Tuple[Optional[ContractManifest], List[Finding]
         return None, findings
 
     assert isinstance(artifacts, list)
+    assert isinstance(target_clis, list)
     assert isinstance(sections, list)
     assert isinstance(tao_sections, list)
     assert isinstance(tao_coverage_matrix, str)
@@ -374,6 +399,7 @@ def load_manifest(path: Path) -> Tuple[Optional[ContractManifest], List[Finding]
         manifest_version=raw["manifest_version"],
         setup_skill_version=raw["setup_skill_version"],
         agents_version=raw["agents_version"],
+        supported_target_clis=tuple(target_clis),
         topic_decision_phase=raw["topic_decision_phase"],
         progress_schema_version=raw["progress_schema_version"],
         tao_chapter_count=raw["tao_chapter_count"],
@@ -801,6 +827,15 @@ def validate_repository(repo_root: Path, manifest: ContractManifest) -> List[Fin
         )
     setup_text = read_text(setup_skill) or ""
     findings.extend(sentinel_contract_findings(setup_text, manifest, setup_skill))
+    for target_cli in manifest.supported_target_clis:
+        if target_cli not in setup_text:
+            findings.append(
+                Finding(
+                    "setup-target-cli",
+                    "story-setup must document supported target_cli {!r}".format(target_cli),
+                    setup_skill,
+                )
+            )
 
     upgrading = repo_root / "skills/story-setup/UPGRADING.md"
     upgrading_text = read_text(upgrading) or ""

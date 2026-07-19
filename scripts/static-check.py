@@ -36,7 +36,7 @@ UNLINKED_SECTION_RE = re.compile(
     r"(?:见|参考|参见|详见)\s*SKILL\.md\s+[^，。；;\n]+"
 )
 EXTERNAL_SCHEMES = ("http://", "https://", "ftp://", "mailto:", "data:", "tel:")
-DEPLOYED_RUNTIME_PREFIXES = (".claude/", ".codex/")
+DEPLOYED_RUNTIME_PREFIXES = (".claude/", ".codex/", ".factory/")
 # browser-cdp is the repository's explicit infrastructure skill.  Business
 # skills may reference its launcher; every other cross-skill file path remains
 # forbidden so domain workflows stay self-contained.

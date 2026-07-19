@@ -2,7 +2,7 @@
 
 # oh-story-claudecode
 
-网文写作 skill 包，覆盖长篇与短篇网络小说的扫榜、拆文、写作、道德经思想命题、去AI味、封面图全流程。仅内置适配 Claude Code 与 Codex CLI。
+网文写作 skill 包，覆盖长篇与短篇网络小说的扫榜、拆文、写作、道德经思想命题、去AI味、封面图全流程。内置适配 Claude Code、Codex CLI 与 Factory Droid。
 
 ## 核心思路
 
@@ -19,6 +19,8 @@
 > v0.8.0 起：仓库收敛为 Claude Code 与 Codex 双端写作引擎；保留 14 个 skill、共享 hook 核与双端部署，移除其他运行时的安装、部署和发布路径。既有项目请重新运行 `/story-setup` 并新开会话。
 
 > v0.10.0 起：《道德经》思想契约由 `scripts/story_tao_runtime.py` 统一执行，成为扫榜、拆文、导入、长短篇写作、审稿、去 AI 味和封面的强制内核；作者可重校准命题但不能关闭。旧项目重新运行 `/story-setup` 后从未来纲要和正文生效，不回写旧正文。
+>
+> v0.11.0 起：新增 Droid 正式适配。14 个 skill、7 个 custom droid、Factory hooks 和长拆文后台断点恢复均可由 `/story-setup` 部署；已有项目需选择 `droid` 重新 setup 并新开 Droid 会话。
 >
 > 更早版本变更见 [CHANGELOG.md](CHANGELOG.md)。
 
@@ -81,7 +83,7 @@ flowchart LR
 
 ## 安装
 
-**方式一** 直接告诉 Claude Code 或 Codex：
+**方式一** 直接告诉 Claude Code、Codex 或 Droid：
 
 ```
 安装这个 skill https://github.com/worldwonderer/oh-story-claudecode
@@ -99,9 +101,11 @@ npx skills add worldwonderer/oh-story-claudecode -y -g
 > **Codex 用户：** repo 内直接使用：Codex 会扫描 `$REPO_ROOT/.agents/skills`（指向 `skills/` 的 symlink）发现 14 个 skill；用 `$story`、`$story-setup` 或 `/skills` 调用。Windows 上 git 需开 `core.symlinks=true`，否则 symlink 失效，改走下方 `$story-setup` 部署。
 > 跑 `$story-setup` 部署到写作项目后，会写入 `.codex/agents/*.toml`、`.codex/hooks.json`、`.codex/hooks/{story_codex_hook.py,run-story-hook.sh,run-story-hook.cmd}` 和 `.codex/skills/story-setup/references/agent-references/`；请信任项目 `.codex/` 配置层并在 `/hooks` review/trust hooks、新开 Codex 会话，让 custom agents 生效。
 >
+> **Droid 用户：** clone 后可在仓库内直接运行 `droid`，它会从 `.factory/skills` 发现 14 个 skill、从 `.factory/droids` 发现 7 个 custom droid。也可先执行 `droid plugin marketplace add https://github.com/worldwonderer/oh-story-claudecode`，再执行 `droid plugin install story@oh-story-claudecode --scope user`。进入小说项目后运行 `/story-setup` 并选择 `droid`，审核 `/hooks` 后新开 Droid 会话。
+>
 > 升级后如果项目里已经跑过 `/story-setup`，建议在项目根重跑一次 `/story-setup`，同步 hooks / agents / references。每版变更见 [CHANGELOG.md](CHANGELOG.md) 与 [Releases](https://github.com/worldwonderer/oh-story-claudecode/releases)。
 
-> **多 agent 协作要先部署再新开会话**：7 个专业 agent（story-architect、narrative-writer、consistency-checker 等）由 `/story-setup` 写入项目 `.claude/agents/`，或由 `$story-setup` 写入 `.codex/agents/*.toml`。Claude Code 与 Codex 都在会话启动时更稳定地注册 custom agent；新会话里跑 `/story-review`，报告头是 `Effective Mode: full/lean` 即注册成功，是 `Fallback: ... -> solo` 说明当前运行时未暴露该 agent。
+> **多 agent 协作要先部署再新开会话**：7 个专业 agent 由 `/story-setup` 写入 `.claude/agents/`、`.codex/agents/*.toml` 或 `.factory/droids/*.md`。新会话里跑 `/story-review`，报告头是 `Effective Mode: full/lean` 即注册成功，是 `Fallback: ... -> solo` 说明当前运行时未暴露该 agent。Droid 长拆文会把独立章节放到后台 Task，并在每批完成后写 `_progress.md`，会话中断可从文件断点继续。
 
 > **导入续写顺序：** 推荐先在写作项目根运行 `/story-setup`（部署 hooks/agents/AGENTS），新开/刷新会话后运行 `/story-import` 导入已有小说，再用 `/story-long-write 日更` 或 `/story-long-write 写第N章` 续写。也可以直接运行 `/story-import`；它会先检测是否已 setup，未部署时让你选择先去 setup 或继续串行导入。
 
@@ -109,7 +113,7 @@ npx skills add worldwonderer/oh-story-claudecode -y -g
 
 | Skill | 触发 | 说明 |
 |:------|:-----|:-----|
-| `story-setup` | `/story-setup` `$story-setup` `/准备写书` | 环境部署 · Claude Code / Codex（已有配置安全合并） |
+| `story-setup` | `/story-setup` `$story-setup` `/准备写书` | 环境部署 · Claude Code / Codex / Droid（已有配置安全合并） |
 | `story` | `/story` `$story` `/网文` | 工具箱路由 · 模糊意图自动分发到对应 skill |
 | `story-long-write` | `/story-long-write` `/写长篇` | 长篇写作 · 大纲搭建、人物设定、正文输出 |
 | `story-tao` | `/story-tao` `$story-tao` `/道德经创作` | 强制思想内核 · 60 张主题命题卡覆盖全部 81 章，支持自动契约、证据映射、运行进展与 Thought Gate |

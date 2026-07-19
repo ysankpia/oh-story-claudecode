@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regression checks for the Claude Code and Codex-only public surface."""
+"""Regression checks for the Claude Code, Codex, and Droid public surface."""
 
 from __future__ import annotations
 
@@ -27,7 +27,15 @@ RETIRED_PATHS = (
     "skills/story-setup/references/opencode",
     "skills/story-setup/references/zcode",
 )
-PUBLIC_TEXT_ROOTS = ("README.md", "README_EN.md", "CONTRIBUTING.md", ".github", "skills")
+PUBLIC_TEXT_ROOTS = (
+    "README.md",
+    "README_EN.md",
+    "CONTRIBUTING.md",
+    ".github",
+    ".factory-plugin",
+    "droids",
+    "skills",
+)
 
 
 def require(condition: bool, message: str) -> None:
@@ -52,15 +60,21 @@ def public_text_files() -> list[Path]:
 
 def main() -> int:
     skills = sorted((REPO_ROOT / "skills").glob("*/SKILL.md"))
-    require(len(skills) == 14, "the Claude/Codex distribution must retain all 14 skills")
+    require(len(skills) == 14, "the supported distribution must retain all 14 skills")
     require((REPO_ROOT / ".claude-plugin/marketplace.json").is_file(), "Claude marketplace must remain")
     require((REPO_ROOT / ".agents/skills").is_symlink(), "Codex skills discovery symlink must remain")
+    require((REPO_ROOT / ".factory/skills").is_symlink(), "Droid skills discovery symlink must remain")
+    require((REPO_ROOT / ".factory/droids").is_symlink(), "Droid definitions symlink must remain")
+    require((REPO_ROOT / ".factory-plugin/plugin.json").is_file(), "Factory plugin manifest must remain")
 
     for relative in RETIRED_PATHS:
         require(not (REPO_ROOT / relative).exists(), "retired platform asset remains: {}".format(relative))
 
     setup = (REPO_ROOT / "skills/story-setup/SKILL.md").read_text(encoding="utf-8").lower()
-    require("claude-code" in setup and "codex" in setup, "story-setup must support Claude and Codex")
+    require(
+        all(term in setup for term in ("claude-code", "codex", "droid")),
+        "story-setup must support Claude Code, Codex, and Droid",
+    )
     for term in RETIRED_TERMS:
         require(term not in setup, "story-setup still exposes retired platform: {}".format(term))
 
@@ -74,7 +88,7 @@ def main() -> int:
         for term in RETIRED_TERMS:
             require(term not in text, "public surface still exposes {}: {}".format(term, path))
 
-    print("OK: public distribution is limited to Claude Code and Codex")
+    print("OK: public distribution supports Claude Code, Codex, and Droid")
     return 0
 
 

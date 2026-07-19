@@ -15,7 +15,7 @@ description: "逆向导入已有小说。将已写好的小说（半成品或完
 
 ---
 
-> Agent 兼容性：检查专业 agent 是否可用时，按 `.claude/agents/{agent}.md` → `.codex/agents/{agent}.toml` 的顺序查找。Codex 原生子代理调用优先使用同名 `agent_type`；如果当前 Codex 运行时返回 `unknown agent_type` 或未暴露 custom-agent registry，必须降级为 solo/direct。Claude Code 兼容面保留 `subagent_type`。
+> Agent 兼容性：按当前端检查 `.claude/agents/{agent}.md`、`.codex/agents/{agent}.toml` 或 `.factory/droids/{agent}.md`。Claude Code 与 Droid 使用 `subagent_type`，Codex 使用 `agent_type`；registry 不可用时降级为 solo/direct。
 
 ## 核心原则
 
@@ -82,7 +82,7 @@ description: "逆向导入已有小说。将已写好的小说（半成品或完
 在进入 Phase 2 之前，先检测项目是否已部署 story-setup 基础设施：
 
 - 检测 `.story-deployed` 是否存在；
-- 优先检测 `.claude/agents/` 下的 `chapter-extractor.md` 是否存在；不存在时检测 `.codex/agents/`（Phase 2 长篇深度分析的并行 agent）。
+- 检测当前端 `.claude/agents/chapter-extractor.md`、`.codex/agents/chapter-extractor.toml` 或 `.factory/droids/chapter-extractor.md`（Phase 2 长篇深度分析的并行 agent）。
 
 **未部署时**，提示用户：
 
@@ -606,7 +606,7 @@ name: {角色名}
 
 - 设置 `.active-book` 指向导入的书名/标题目录
 - 确认项目可以被对应写作 skill 识别（长篇 → story-long-write，短篇 → story-short-write）
-- 可选验证：如果项目已部署 story-explorer agent（优先检查 `.claude/agents/` 下的 `story-explorer.md` 是否存在；不存在时检查 `.codex/agents/`），可 spawn `Agent(subagent_type: "story-explorer", prompt: "项目目录：{dir}\n查询类型：progress\n查询参数：导入验证")` 交叉验证迁移数据完整性
+- 可选验证：如果当前端已部署 `.claude/agents/story-explorer.md`、`.codex/agents/story-explorer.toml` 或 `.factory/droids/story-explorer.md`，可 spawn `story-explorer` 交叉验证迁移数据完整性
 
 > setup 环境检测已在 Phase 1「环境检测前置」完成，此处不再重复检测。
 

@@ -41,6 +41,10 @@ def test_manifest_contract() -> None:
     require(not findings, "repository manifest should validate: {}".format(findings))
     require(manifest is not None, "repository manifest should load")
     require(manifest.tao_chapter_count == 81, "Tao corpus must declare 81 chapters")
+    require(
+        manifest.supported_target_clis == ("claude-code", "codex", "droid"),
+        "current adapters must be declared in stable order",
+    )
     require(manifest.tao_operator_count == 60, "Tao operator library must declare 60 cards")
     require(
         manifest.tao_operator_sections
@@ -76,6 +80,18 @@ def test_manifest_contract() -> None:
         require(
             "manifest-value-type" in finding_codes(wrong_type_findings),
             "string agents_version must be rejected",
+        )
+
+        malformed_targets = dict(raw)
+        malformed_targets["supported_target_clis"] = ["claude-code", "droid", "droid"]
+        malformed_targets_path = tmpdir / "malformed-targets.json"
+        malformed_targets_path.write_text(
+            json.dumps(malformed_targets, ensure_ascii=False), encoding="utf-8"
+        )
+        _, malformed_target_findings = VALIDATOR.load_manifest(malformed_targets_path)
+        require(
+            "manifest-target-cli-duplicate" in finding_codes(malformed_target_findings),
+            "duplicate target CLIs must be rejected",
         )
 
         stale = dict(raw)

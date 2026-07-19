@@ -66,11 +66,11 @@ if sentinel_exists "$ROOT/.story-deployed"; then
       HAS_CONTENT=true
       ;;
     *)
-      if [ "$AGENTS_VERSION" -lt 22 ]; then
-        OUTPUT+="[WARN] story-setup agents_version=$AGENTS_VERSION 低于 v22。重新运行 /story-setup 刷新 hooks、agents 和 references（部署后需新开会话）。\n\n"
+      if [ "$AGENTS_VERSION" -lt 23 ]; then
+        OUTPUT+="[WARN] story-setup agents_version=$AGENTS_VERSION 低于 v23。重新运行 /story-setup 刷新 hooks、agents 和 references（部署后需新开会话）。\n\n"
         HAS_CONTENT=true
-      elif [ "$AGENTS_VERSION" -gt 22 ]; then
-        OUTPUT+="[WARN] story-setup agents_version=$AGENTS_VERSION 高于本 hook 支持的 v22。不要降级覆盖；请先更新 oh-story-claudecode。\n\n"
+      elif [ "$AGENTS_VERSION" -gt 23 ]; then
+        OUTPUT+="[WARN] story-setup agents_version=$AGENTS_VERSION 高于本 hook 支持的 v23。不要降级覆盖；请先更新 oh-story-claudecode。\n\n"
         HAS_CONTENT=true
       fi
       ;;
@@ -88,11 +88,18 @@ if sentinel_exists "$ROOT/.story-deployed"; then
 
   REFERENCES_DIR=$(read_sentinel_field references_dir "$ROOT/.story-deployed")
   if [ -n "$REFERENCES_DIR" ]; then
-    REFERENCES_PATH=$(resolve_project_path "$REFERENCES_DIR")
-    if [ ! -d "$REFERENCES_PATH" ] || ! find "$REFERENCES_PATH" -maxdepth 1 -type f -name "*.md" -print -quit 2>/dev/null | grep -q .; then
-      OUTPUT+="[WARN] story-setup 参考资料包缺失或为空：${REFERENCES_DIR}。重新运行 /story-setup。\n\n"
-      HAS_CONTENT=true
-    fi
+    OLD_IFS=$IFS
+    IFS=','
+    for REFERENCES_ITEM in $REFERENCES_DIR; do
+      IFS=$OLD_IFS
+      REFERENCES_PATH=$(resolve_project_path "$REFERENCES_ITEM")
+      if [ ! -d "$REFERENCES_PATH" ] || ! find "$REFERENCES_PATH" -maxdepth 1 -type f -name "*.md" -print -quit 2>/dev/null | grep -q .; then
+        OUTPUT+="[WARN] story-setup 参考资料包缺失或为空：${REFERENCES_ITEM}。重新运行 /story-setup。\n\n"
+        HAS_CONTENT=true
+      fi
+      IFS=','
+    done
+    IFS=$OLD_IFS
   fi
 else
   OUTPUT+="[WARN] 写作环境未部署。运行 /story-setup 初始化。\n\n"

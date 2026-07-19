@@ -1,7 +1,8 @@
 {
   "manifest_version": 1,
-  "setup_skill_version": "1.5.0",
-  "agents_version": 22,
+  "setup_skill_version": "1.6.0",
+  "agents_version": 23,
+  "supported_target_clis": ["claude-code", "codex", "droid"],
   "topic_decision_phase": 5,
   "progress_schema_version": 2,
   "tao_chapter_count": 81,

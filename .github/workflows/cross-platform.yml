@@ -1,4 +1,4 @@
-name: Claude and Codex smoke test
+name: Claude, Codex, and Droid smoke test
 on: [push, pull_request]
 
 permissions:
@@ -51,7 +51,7 @@ jobs:
         run: bash scripts/test-degeneration.sh
       - name: Prose backstop hook regression
         run: bash scripts/test-prose-backstop-hook.sh
-      - name: Claude/Codex prose-net parity
+      - name: Claude/shared-adapter prose-net parity
         run: bash scripts/test-prose-net-parity.sh
       - name: Story continuity backstop regression
         run: bash scripts/test-story-continuity.sh
@@ -63,7 +63,11 @@ jobs:
         run: bash scripts/check-codex-adapter.sh
       - name: Test Codex hook adapter
         run: bash scripts/test-codex-hooks.sh
-      - name: Check dual-platform public surface
+      - name: Check Droid adapter
+        run: bash scripts/check-droid-adapter.sh
+      - name: Test Droid hook adapter
+        run: bash scripts/test-droid-hooks.sh
+      - name: Check supported-platform public surface
         run: python3 scripts/test-dual-platform-surface.py
       - name: Guard against bare python3 invocations
         run: bash scripts/check-python-invocation.sh
@@ -106,7 +110,7 @@ jobs:
       - name: Prose backstop hook regression
         shell: bash
         run: bash scripts/test-prose-backstop-hook.sh
-      - name: Claude/Codex prose-net parity
+      - name: Claude/shared-adapter prose-net parity
         shell: bash
         run: bash scripts/test-prose-net-parity.sh
       - name: Story continuity backstop regression
@@ -167,7 +171,7 @@ jobs:
         run: bash scripts/test-degeneration.sh
       - name: Prose backstop hook regression
         run: bash scripts/test-prose-backstop-hook.sh
-      - name: Claude/Codex prose-net parity
+      - name: Claude/shared-adapter prose-net parity
         run: bash scripts/test-prose-net-parity.sh
       - name: Story continuity backstop regression
         run: bash scripts/test-story-continuity.sh

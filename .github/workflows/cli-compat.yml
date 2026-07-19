@@ -6,6 +6,9 @@ on:
     paths:
       - '.agents/**'
       - '.claude-plugin/**'
+      - '.factory/**'
+      - '.factory-plugin/**'
+      - 'droids/**'
       - '.github/workflows/cli-compat.yml'
       - 'scripts/**'
       - 'skills/**'
@@ -13,6 +16,9 @@ on:
     paths:
       - '.agents/**'
       - '.claude-plugin/**'
+      - '.factory/**'
+      - '.factory-plugin/**'
+      - 'droids/**'
       - '.github/workflows/cli-compat.yml'
       - 'scripts/**'
       - 'skills/**'
@@ -61,3 +67,24 @@ jobs:
         run: npm install --global @openai/codex@latest
       - name: Run real Codex CLI discovery test
         run: bash scripts/test-codex-cli-e2e.sh
+
+  droid:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install current Droid CLI
+        run: npm install --global droid@latest
+      - name: Run Droid adapter checks
+        run: bash scripts/check-droid-adapter.sh
+      - name: Verify real Droid marketplace discovery
+        run: |
+          test_home="$(mktemp -d)"
+          HOME="$test_home" droid plugin marketplace add "$GITHUB_WORKSPACE"
+          HOME="$test_home" droid plugin marketplace list | grep -q 'oh-story-claudecode.*14 plugins'

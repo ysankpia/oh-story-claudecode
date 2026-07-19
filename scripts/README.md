@@ -13,7 +13,7 @@
 | `skill-numbering.py check` | 工作流 Step/Phase/Stage 编号策略、引用绑定、SKILL.md 裸编号/子步骤小数守卫 | CI；改工作流结构后 |
 | `check-current-skill-contracts.sh` + `.py` + `current-contract.json` | 从结构化 manifest 校验当前版本、Phase、schema、主产物与细纲契约；保留 legacy/path 守卫并拦截缺主产物后的静默替代 | CI |
 | `story_tao_contract.py` | 从 current-contract manifest 校验《道德经》81 章、60 张命题卡、全章覆盖矩阵、项目契约及文学流程接入 | CI |
-| `story_tao_runtime.py` | 执行 story-tao 的匹配、契约创建/迁移、摘要、证据映射和思想进展更新 | Claude/Codex 流程 |
+| `story_tao_runtime.py` | 执行 story-tao 的匹配、契约创建/迁移、摘要、证据映射和思想进展更新 | Claude/Codex/Droid 流程 |
 | `check-shared-files.sh` | 调 `sync-shared-assets.py check` 验 runtime 副本，再验 59 组共享 reference 字节一致 | CI |
 | `check-story-setup-deployment.sh` | story-setup 部署/运行时回归（慢，>2min） | CI |
 | `check-hook-regex-sync.sh` | `detect-story-gaps.sh` 伏笔状态检测行为 | CI |
@@ -21,6 +21,7 @@
 | `check-python-invocation.sh` | 技能文档禁止裸调 `python3`（须 python3→python→py 探测） | CI |
 | `check-claude-adapter.sh` | Claude marketplace 与 14 个 skill 的一一映射；可选真实 CLI strict validate | CI（静态）；`CLAUDE_REAL_CHECK=1`（真实 CLI） |
 | `check-codex-adapter.sh` | Codex 适配层：repo skills symlink、agent TOML、hooks 与跨平台 launcher | CI（调 generate-codex-agents.py 验生成确定性） |
+| `check-droid-adapter.sh` | Droid 适配层：Factory skills/droids symlink、plugin manifest、生成器和 hook merge | CI |
 
 ## 测试回归（test-*）
 
@@ -28,10 +29,11 @@
 |---|---|---|
 | `test-ai-patterns.sh` | 确定性 AI 句式检测器 `check-ai-patterns.js` 回归 | CI |
 | `test-degeneration.sh` | 模型退化检测器 `check-degeneration.js` 回归 | CI |
-| `test-prose-net-parity.sh` | 正文兜底「轻量确定性网」Claude/Codex parity | CI（调 check-hook-regex-sync） |
+| `test-prose-net-parity.sh` | 正文兜底「轻量确定性网」Claude 与共享 Python adapter parity（Codex/Droid 共用） | CI（调 check-hook-regex-sync） |
 | `test-prose-backstop-hook.sh` | `check-prose-after-write.sh` 回归 | CI |
 | `test-story-continuity.sh` | `detect-story-gaps.sh` 跨批连续性兜底回归 | CI |
 | `test-codex-hooks.sh` | Codex hook 合成 stdin/stdout 契约 | CI |
+| `test-droid-hooks.sh` | Droid hook 的 Factory 事件、正文守卫、写后复扫和 launcher 契约 | CI |
 | `test-static-check.py` | 真 frontmatter block、精确路径/锚点、跨 Skill 引用、fence、死 reference、Agent 与章节链接 fixture | CI |
 | `test-current-skill-contracts.py` | current-contract manifest 类型/固定值与主产物 fail-fast 语义 fixture | CI |
 | `test-story-tao-contract.py` | story-tao 章次、卡片 ID、章节引用、项目契约、必填段落和接入契约的负向回归 | CI |
@@ -50,9 +52,10 @@
 |---|---|---|
 | `generate-codex-agents.py` | 从 Claude agent 模板生成 Codex `.toml` agents | 改 agent 模板后手动跑；被 check-codex-adapter 调验确定性 |
 | `generate-codex-hooks.py` | 从 6 个 event 清单生成 `hooks.json`，POSIX/Windows 共用 launcher 负责解释器探测 | 改 Codex hook 注册后；被 check-codex-adapter 调验确定性 |
+| `generate-droid-agents.py` | 调用 story-setup bundled generator，从 Claude agent 模板生成 7 个 custom droid | 改 agent 模板后；被 check-droid-adapter 调验确定性 |
 | `shared-assets.json` + `sync-shared-assets.py` | 为必须随 skill 独立部署的重复 runtime 脚本指定唯一源和目标 | 改共享 runtime 后跑 `sync`；CI 跑 `check` |
 
-> 改了 `skills/story-setup/references/templates/agents/*.md` 或 `CLAUDE.md.tmpl`，必须重跑 Codex agent 生成器并提交结果，否则适配层 CI 红。详见 [CONTRIBUTING.md](../CONTRIBUTING.md)「Codex 适配维护」。
+> 改了 `skills/story-setup/references/templates/agents/*.md` 或 `CLAUDE.md.tmpl`，必须重跑 Codex 与 Droid agent 生成器并提交结果，否则适配层 CI 红。详见 [CONTRIBUTING.md](../CONTRIBUTING.md) 的适配维护章节。
 
 ## 工作流编号维护
 

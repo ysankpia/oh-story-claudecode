@@ -11,7 +11,7 @@ description: "短篇网文写作。辅助短篇小说创作，从构思到成稿
 
 ---
 
-> Agent 兼容性：检查专业 agent 是否可用时，按 `.claude/agents/{agent}.md` → `.codex/agents/{agent}.toml` 的顺序查找。Codex 原生子代理调用优先使用同名 `agent_type`；如果当前 Codex 运行时返回 `unknown agent_type` 或未暴露 custom-agent registry，必须降级为 solo/direct。Claude Code 兼容面保留 `subagent_type`。
+> Agent 兼容性：按当前端检查 `.claude/agents/{agent}.md`、`.codex/agents/{agent}.toml` 或 `.factory/droids/{agent}.md`。Claude Code 与 Droid 使用 `subagent_type`，Codex 使用 `agent_type`；registry 不可用时降级为 solo/direct。
 
 ## 执行规则
 

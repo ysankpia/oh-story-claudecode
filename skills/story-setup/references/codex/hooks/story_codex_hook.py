@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Codex hook adapter for oh-story writing projects.
+"""Python hook adapter for Codex and Factory Droid writing projects.
 
 This script intentionally has no third-party dependencies. It adapts the core
-story guardrails to Codex hook stdin/stdout JSON contracts.
+story guardrails to the shared hook stdin/stdout JSON contracts.
 """
 from __future__ import annotations
 
@@ -68,7 +68,7 @@ def _deployed_root_from_file() -> Path | None:
 
 
 def project_root() -> Path:
-    for env_name in ("CODEX_PROJECT_DIR", "CLAUDE_PROJECT_DIR"):
+    for env_name in ("FACTORY_PROJECT_DIR", "CODEX_PROJECT_DIR", "CLAUDE_PROJECT_DIR"):
         value = os.environ.get(env_name)
         if not value:
             continue
@@ -448,13 +448,16 @@ def continuity_findings(root: Path) -> list[str]:
 def session_start() -> None:
     root = project_root()
     messages: list[str] = []
+    target_cli = os.environ.get("STORY_TARGET_CLI", "codex")
+    invocation = "/story-setup" if target_cli == "droid" else "$story-setup"
+    platform_name = "Droid" if target_cli == "droid" else "Codex"
     sentinel = root / ".story-deployed"
     if sentinel.exists():
         sent_text = sentinel.read_text(encoding="utf-8", errors="ignore")
         if "target_cli:" not in sent_text:
-            messages.append("[story-setup] .story-deployed 缺少 target_cli 字段；建议重新运行 $story-setup。")
-        elif "codex" not in re.search(r"target_cli:\s*(.*)", sent_text).group(1):  # type: ignore[union-attr]
-            messages.append("[story-setup] 当前部署标记未包含 codex；如需 Codex hooks/agents，请重新运行 $story-setup 并选择 Codex。")
+            messages.append(f"[story-setup] .story-deployed 缺少 target_cli 字段；建议重新运行 {invocation}。")
+        elif target_cli not in re.search(r"target_cli:\s*(.*)", sent_text).group(1):  # type: ignore[union-attr]
+            messages.append(f"[story-setup] 当前部署标记未包含 {target_cli}；如需 {platform_name} hooks/agents，请重新运行 {invocation} 并选择 {platform_name}。")
     book = read_active_book(root)
     if book:
         ctx = book / "追踪" / "上下文.md"
@@ -519,7 +522,7 @@ def target_paths_from_hook(obj: dict[str, Any]) -> list[Path]:
             raw_targets.append(value)
     command = tool_input.get("command")
     if isinstance(command, str):
-        if tool_name == "Bash":
+        if tool_name in {"Bash", "Execute"}:
             raw_targets.extend(extract_prose_targets_from_command(command))
         else:
             raw_targets.extend(extract_apply_patch_targets(command))
@@ -761,6 +764,30 @@ def pre_tool_commit_advisory(obj: dict[str, Any]) -> None:
         emit(hook_context("PreToolUse", warnings))
 
 
+def post_tool_prose_check(obj: dict[str, Any]) -> None:
+    root = project_root()
+    blocks: list[str] = []
+    for abs_path in target_paths_from_hook(obj):
+        if not _is_prose_path(root, abs_path) or not abs_path.is_file():
+            continue
+        try:
+            text = abs_path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        findings = prose_net_findings(text)
+        wordcount = _wordcount_finding(abs_path, text)
+        if wordcount:
+            findings.append(wordcount)
+        if findings:
+            blocks.append(f"=== {safe_rel(root, abs_path)} ===\n" + "\n".join(findings))
+    if blocks:
+        emit(hook_context(
+            "PostToolUse",
+            "=== 正文兜底检测（写后复扫，模型无关）===\n硬信号命中即回正文改掉、复扫到净：\n"
+            + "\n".join(blocks),
+        ))
+
+
 def compact_summary(event: str) -> None:
     root = project_root()
     lines = ["=== Story Compact Summary ==="]
@@ -788,7 +815,8 @@ def compact_summary(event: str) -> None:
 
 
 def stop_event() -> None:
-    # Codex 无 PostToolUse，正文内容网在回合结束的 Stop 事件兜底：对本回合 git 改动过的正文
+    # Codex 无 PostToolUse，正文内容网在回合结束的 Stop 事件兜底；Droid 同时保留 Stop 复扫：
+    # 对本回合 git 改动过的正文
     # 复扫硬信号（截断/拒绝语/工程词/复读）。非阻塞、无发现静默；解析失败一律 {continue:True}。
     # Stop hooks require JSON on stdout.
     try:
@@ -826,6 +854,8 @@ def main() -> int:
         pre_tool_prose_guard(obj)
     elif event == "pre-tool-commit-advisory":
         pre_tool_commit_advisory(obj)
+    elif event == "post-tool-prose-check":
+        post_tool_prose_check(obj)
     elif event == "pre-compact":
         compact_summary("PreCompact")
     elif event == "post-compact":

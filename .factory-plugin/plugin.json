@@ -1,0 +1,8 @@
+{
+  "name": "oh-story",
+  "description": "Chinese web-novel workflows with a mandatory Tao thought runtime",
+  "version": "0.11.0",
+  "author": {
+    "name": "worldwonderer"
+  }
+}

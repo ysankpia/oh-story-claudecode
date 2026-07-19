@@ -15,7 +15,7 @@ description: "长篇网文拆文。深度拆解爆款长篇小说的黄金三章
 
 ---
 
-> Agent 兼容性：检查专业 agent 是否可用时，按 `.claude/agents/{agent}.md` → `.codex/agents/{agent}.toml` 的顺序查找。Codex 原生子代理调用优先使用同名 `agent_type`；如果当前 Codex 运行时返回 `unknown agent_type` 或未暴露 custom-agent registry，必须降级为 solo/direct。Claude Code 兼容面保留 `subagent_type`。
+> Agent 兼容性：按当前运行端检查 `.claude/agents/{agent}.md`、`.codex/agents/{agent}.toml` 或 `.factory/droids/{agent}.md`。Claude Code 与 Droid 使用 `subagent_type`，Codex 使用 `agent_type`；registry 不可用时降级为 solo/direct。
 
 ## 拆解边界声明（主线程同样适用）
 
@@ -219,6 +219,8 @@ Agent(
 - 每次 spawn 5-8 个 agent（避免并发限制）
 - 等待当前批次全部完成后，再 spawn 下一批
 - 每批完成后更新 `_progress.md` 记录已处理章节
+- Droid 使用 Task 的 `run_in_background: true` 启动同批独立章节，随后由父流程用 TaskOutput 收齐结果；不得依赖异步通知替代结果回收。
+- Droid 主会话或子任务中断时，以 `_progress.md` 和已通过校验的摘要文件恢复；Task `resume` 只用于补救同一章节，不替代落盘断点。
 
 ### Agent 输出收集
 
@@ -258,7 +260,7 @@ Agent(
 
 以下任一情况，Stage 2 自动退回串行模式，由主线程按 chapter-extractor 方法论逐章处理（结果同样套 output-templates.md 的章节摘要模板，质量不受影响，只是改为串行、速度略慢）：
 
-- **agent 未部署**：agent 目录（优先 `.claude/agents/`，再检查 `.codex/agents/`）下的 `chapter-extractor.md` 或 `.codex/agents/chapter-extractor.toml` 不存在。`.claude/agents/` 通常不随仓库提交，应重新运行 `/story-setup` 完成当前适配器部署，不跨 Skill 读取模板源。
+- **agent 未部署**：当前端的 `.claude/agents/chapter-extractor.md`、`.codex/agents/chapter-extractor.toml` 或 `.factory/droids/chapter-extractor.md` 不存在。应重新运行 `/story-setup` 完成当前适配器部署，不跨 Skill 读取模板源。
 - **环境不支持 spawn 子代理**：本 skill 正运行在某个子代理上下文中，无法再起下一层 agent。
 
 ### Stage 2 收尾：合并章节摘要（_章节摘要汇总.md）

@@ -1,0 +1,71 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$FACTORY_PROJECT_DIR/.factory/hooks/run-story-droid-hook.sh\" session-start",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Execute",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$FACTORY_PROJECT_DIR/.factory/hooks/run-story-droid-hook.sh\" pre-tool-commit-advisory",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "matcher": "Create|Edit|ApplyPatch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$FACTORY_PROJECT_DIR/.factory/hooks/run-story-droid-hook.sh\" pre-tool-prose-guard",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Create|Edit|ApplyPatch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$FACTORY_PROJECT_DIR/.factory/hooks/run-story-droid-hook.sh\" post-tool-prose-check",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$FACTORY_PROJECT_DIR/.factory/hooks/run-story-droid-hook.sh\" pre-compact",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$FACTORY_PROJECT_DIR/.factory/hooks/run-story-droid-hook.sh\" stop",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

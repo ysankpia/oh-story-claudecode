@@ -70,9 +70,11 @@ PR 自动运行 `.github/workflows/cross-platform.yml`。static-check job 跑以
 - `scripts/check-claude-adapter.sh` — Claude marketplace 与 skill 映射检查
 - `scripts/check-codex-adapter.sh` — Codex repo skills symlink、custom-agent TOML、hook 生成确定性与 launcher 契约
 - `scripts/test-codex-hooks.sh` — Codex hooks 合成事件测试
+- `scripts/check-droid-adapter.sh` — Factory skills/droids、plugin manifest、生成确定性与 hook 合并契约
+- `scripts/test-droid-hooks.sh` — Droid hooks 合成事件与 launcher 测试
 - 采集脚本 `node --check` 语法校验
 
-以上为代表性列举；**强制清单按 `.github/workflows/cross-platform.yml` 为准**，每个脚本的用途与触发时机见 [scripts/README.md](scripts/README.md)。另有 `.github/workflows/cli-compat.yml` 在相关 PR、每周定时和手动触发时安装官方当前版本，真实运行 Claude Code 与 Codex 的无鉴权 smoke。
+以上为代表性列举；**强制清单按 `.github/workflows/cross-platform.yml` 为准**，每个脚本的用途与触发时机见 [scripts/README.md](scripts/README.md)。另有 `.github/workflows/cli-compat.yml` 在相关 PR、每周定时和手动触发时安装官方当前版本，真实运行 Claude Code、Codex 与 Droid 的无鉴权 smoke。
 
 另有 windows / macos job 验证 cdp-utils 加载与 setup 脚本 dry-run。
 
@@ -101,6 +103,8 @@ bash scripts/check-story-setup-deployment.sh
 bash scripts/check-claude-adapter.sh
 bash scripts/check-codex-adapter.sh
 bash scripts/test-codex-hooks.sh
+bash scripts/check-droid-adapter.sh
+bash scripts/test-droid-hooks.sh
 bash scripts/check-python-invocation.sh
 bash scripts/check-hook-locale-safety.sh
 bash scripts/test-hook-encoding-portable.sh
@@ -110,6 +114,7 @@ bash scripts/test-charcount-portable.sh --stub
 # 可选真实 CLI smoke（需分别安装对应 CLI）
 CLAUDE_REAL_CHECK=1 bash scripts/check-claude-adapter.sh
 bash scripts/test-codex-cli-e2e.sh
+droid --version
 ```
 
 ## 工作流编号规范
@@ -189,3 +194,21 @@ bash scripts/test-codex-hooks.sh
 - **PreToolUse 不完整拦截**：Codex 官方说明当前 shell/edit 拦截不是完备安全边界；story hooks 只作为写作流程 guardrail，不能替代版本控制和人工审查。
 - **agent 文件格式**：Codex custom agents 是 `.codex/agents/{name}.toml`，必需 `name`、`description`、`developer_instructions`；只读 agent 使用 `sandbox_mode = "read-only"`。
 - **custom-agent 运行时注册**：`$story-setup` 写入 `.codex/agents/*.toml` 后，需要 trust 项目 `.codex/` 配置层并新开 Codex 会话。若当前 Codex 运行时仍返回 `unknown agent_type`（本地 `codex exec 0.141.0` 临时项目烟测可复现），skill 必须降级 solo/direct 并报告 fallback；自动化硬门槛是 TOML schema 与文件部署检查。
+
+## Droid 适配维护
+
+Droid 直接发现 `.factory/skills/<name>/SKILL.md` 与 `.factory/droids/*.md`。仓库通过相对 symlink 复用 canonical `skills/` 和生成后的 `droids/`，不得维护第二份 skill 文本。
+
+- `skills/story-setup/scripts/generate-droid-agents.py` 是唯一生成实现；根 `scripts/generate-droid-agents.py` 只是开发入口。修改 Claude agent 模板后必须重新生成并提交 `droids/*.md`。
+- `.factory/hooks.json` 部署必须经 `merge-droid-hooks.py` 合并，只替换 Oh Story 管理的 launcher，保留用户 hooks 和未知字段。
+- Droid custom droid 不能嵌套 spawn。长拆文由父会话启动后台 Task、用 TaskOutput 收回，并在每批完成后写 `_progress.md`；`resume` 只能补救同一任务，不能替代文件断点。
+- 插件格式遵循 `.factory-plugin/plugin.json`；Factory marketplace 可兼容仓库现有 Claude marketplace。安装烟测不得依赖模型鉴权。
+
+### Droid 同步步骤
+
+```bash
+python3 scripts/generate-droid-agents.py
+python3 scripts/generate-droid-agents.py --check
+bash scripts/check-droid-adapter.sh
+bash scripts/test-droid-hooks.sh
+```

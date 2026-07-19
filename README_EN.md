@@ -4,7 +4,7 @@
 
 # oh-story-claudecode
 
-A web novel writing skill pack with built-in adapters for Claude Code and Codex CLI. Covers the full pipeline for long-form and short-form Chinese web novels: trend scanning, deconstruction, writing, Tao Te Ching thought design, AI tone removal, and cover generation.
+A web novel writing skill pack with built-in adapters for Claude Code, Codex CLI, and Factory Droid. Covers the full pipeline for long-form and short-form Chinese web novels: trend scanning, deconstruction, writing, Tao Te Ching thought design, AI tone removal, and cover generation.
 
 ## Core Approach
 
@@ -21,6 +21,8 @@ Built around four pillars: reverse-engineering hits · plot modularization · la
 > Starting in v0.8.0: the repository is now a Claude Code and Codex writing engine. All 14 skills, the shared hook core, and dual-platform deployment remain; other runtime installation, deployment, and publishing paths are removed. Existing projects should rerun `/story-setup` and start a fresh session.
 
 > Starting in v0.10.0: the Tao Te Ching thought contract is executed by `scripts/story_tao_runtime.py` and remains mandatory across market scans, deconstruction, import, long/short writing, review, prose cleanup, and cover direction. Authors may recalibrate the proposition but cannot disable the layer. Existing prose is not rewritten.
+>
+> Starting in v0.11.0: Droid is a first-class adapter with all 14 skills, 7 custom droids, Factory hooks, and checkpointed background deconstruction. Existing projects must rerun `/story-setup` with `droid` selected and start a fresh Droid session.
 >
 > For earlier versions, see [CHANGELOG.md](CHANGELOG.md).
 
@@ -81,7 +83,7 @@ flowchart LR
 
 ## Installation
 
-**Option 1** Tell Claude Code or Codex:
+**Option 1** Tell Claude Code, Codex, or Droid:
 
 ```
 Install this skill https://github.com/worldwonderer/oh-story-claudecode
@@ -101,14 +103,16 @@ npx skills add worldwonderer/oh-story-claudecode -y -g
 > **Codex users:** Use it in-place: Codex scans `$REPO_ROOT/.agents/skills` (a symlink to `skills/`) and discovers all 14 skills; invoke via `$story`, `$story-setup`, or `/skills`. On Windows, enable git `core.symlinks=true` or the symlink breaks — then use the `$story-setup` deployment below.
 > After `$story-setup` deploys into a writing project, it creates `.codex/agents/*.toml`, `.codex/hooks.json`, `.codex/hooks/{story_codex_hook.py,run-story-hook.sh,run-story-hook.cmd}`, and `.codex/skills/story-setup/references/agent-references/`. Trust the project `.codex/` layer, review/trust hooks in `/hooks`, and open a fresh Codex session so custom agents load.
 >
+> **Droid users:** After cloning, run `droid` in the repository to discover 14 skills through `.factory/skills` and 7 custom droids through `.factory/droids`. For plugin installation, run `droid plugin marketplace add https://github.com/worldwonderer/oh-story-claudecode`, then `droid plugin install story@oh-story-claudecode --scope user`. In the novel project, run `/story-setup`, select `droid`, review `/hooks`, and open a fresh Droid session.
+>
 
-> **Multi-agent collaboration needs setup + a fresh session**: the 7 specialist agents (story-architect, narrative-writer, consistency-checker, etc.) are written into your project's `.claude/agents/` by `/story-setup`, or into `.codex/agents/*.toml` by `$story-setup`. Claude Code and Codex register custom agents most reliably at session start; run `/story-review` in the new session — `Effective Mode: full/lean` means agents registered, `Fallback: ... -> solo` means they are unavailable.
+> **Multi-agent collaboration needs setup + a fresh session**: the 7 specialist agents are deployed into `.claude/agents/`, `.codex/agents/*.toml`, or `.factory/droids/*.md`. Run `/story-review` in the new session: `Effective Mode: full/lean` means agents registered; `Fallback: ... -> solo` means they are unavailable. Droid uses background Tasks for independent long-form extraction batches, collects every result with TaskOutput, and checkpoints `_progress.md` after each batch.
 
 ## Skills
 
 | Skill | Trigger | Description |
 |:------|:--------|:------------|
-| `story-setup` | `/story-setup` / `$story-setup` | Environment setup — Claude Code / Codex (safe merge) |
+| `story-setup` | `/story-setup` / `$story-setup` | Environment setup — Claude Code / Codex / Droid (safe merge) |
 | `story` | `/story` / `$story` | Toolbox router — routes fuzzy intents to the matching skill |
 | `story-long-write` | `/story-long-write` | Long-form writing — outline building, character design, prose output |
 | `story-tao` | `/story-tao` / `$story-tao` | Mandatory thought core — 60 thematic cards covering all 81 chapters, plus contracts, evidence mapping, runtime state, and Thought Gate |
