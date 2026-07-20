@@ -86,24 +86,24 @@ flowchart LR
 **Option 1** Tell Claude Code, Codex, or Droid:
 
 ```
-Install this skill https://github.com/worldwonderer/oh-story-claudecode
+Install this skill https://github.com/ysankpia/oh-story-claudecode
 ```
 
 **Option 2** Command line:
 
 ```bash
-npx skills add worldwonderer/oh-story-claudecode -y -g
+npx skills add ysankpia/oh-story-claudecode -y -g
 ```
 
 `-g` installs globally (available in every directory); drop `-g` to install only into the current directory. Re-run the same command to update.
 
-> After updating, if a project has already run `/story-setup`, re-run `/story-setup` from the project root to sync hooks / agents / references. Per-version changes are in [CHANGELOG.md](CHANGELOG.md) and [Releases](https://github.com/worldwonderer/oh-story-claudecode/releases).
+> After updating, if a project has already run `/story-setup`, re-run `/story-setup` from the project root to sync hooks / agents / references. Per-version changes are in [CHANGELOG.md](CHANGELOG.md) and [Releases](https://github.com/ysankpia/oh-story-claudecode/releases).
 >
 
 > **Codex users:** Use it in-place: Codex scans `$REPO_ROOT/.agents/skills` (a symlink to `skills/`) and discovers all 14 skills; invoke via `$story`, `$story-setup`, or `/skills`. On Windows, enable git `core.symlinks=true` or the symlink breaks — then use the `$story-setup` deployment below.
 > After `$story-setup` deploys into a writing project, it creates `.codex/agents/*.toml`, `.codex/hooks.json`, `.codex/hooks/{story_codex_hook.py,run-story-hook.sh,run-story-hook.cmd}`, and `.codex/skills/story-setup/references/agent-references/`. Trust the project `.codex/` layer, review/trust hooks in `/hooks`, and open a fresh Codex session so custom agents load.
 >
-> **Droid users:** After cloning, run `droid` in the repository to discover 14 skills through `.factory/skills` and 7 custom droids through `.factory/droids`. For plugin installation, run `droid plugin marketplace add https://github.com/worldwonderer/oh-story-claudecode`, then `droid plugin install story@oh-story-claudecode --scope user`. In the novel project, run `/story-setup`, select `droid`, review `/hooks`, and open a fresh Droid session.
+> **Droid users:** After cloning, run `droid` in the repository to discover 14 skills through `.factory/skills` and 7 custom droids through `.factory/droids`. For plugin installation, run `droid plugin marketplace add https://github.com/ysankpia/oh-story-claudecode`, then `droid plugin install story@oh-story-claudecode --scope user`. In the novel project, run `/story-setup`, select `droid`, review `/hooks`, and open a fresh Droid session.
 >
 
 > **Multi-agent collaboration needs setup + a fresh session**: the 7 specialist agents are deployed into `.claude/agents/`, `.codex/agents/*.toml`, or `.factory/droids/*.md`. Run `/story-review` in the new session: `Effective Mode: full/lean` means agents registered; `Fallback: ... -> solo` means they are unavailable. Droid uses background Tasks for independent long-form extraction batches, collects every result with TaskOutput, and checkpoints `_progress.md` after each batch.
@@ -344,11 +344,11 @@ I built this skill pack to help me through a job-hunting transition :joy:, and I
 
 ## Star History
 
-<a href="https://www.star-history.com/?repos=worldwonderer%2Foh-story-claudecode&type=date&legend=top-left">
+<a href="https://www.star-history.com/?repos=ysankpia%2Foh-story-claudecode&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=worldwonderer/oh-story-claudecode&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=worldwonderer/oh-story-claudecode&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=worldwonderer/oh-story-claudecode&type=date&legend=top-left" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=ysankpia/oh-story-claudecode&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=ysankpia/oh-story-claudecode&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=ysankpia/oh-story-claudecode&type=date&legend=top-left" />
  </picture>
 </a>
 
@@ -359,7 +359,7 @@ Contributions are welcome — new skills, knowledge base additions, market data 
 ## Community
 
 - **Telegram**: <https://t.me/ohstoryclaudecode> — chat, troubleshooting, and feature discussion.
-- **GitHub Discussions**: [ask questions, get help, share workflows](https://github.com/worldwonderer/oh-story-claudecode/discussions).
+- **GitHub Discussions**: [ask questions, get help, share workflows](https://github.com/ysankpia/oh-story-claudecode/discussions).
 
 ## Acknowledgments
 

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v0.11.1
+
+### Fixed
+
+- Installation, update, release, discussion, and Droid marketplace URLs now target `ysankpia/oh-story-claudecode` instead of the upstream repository.
+
 ## v0.11.0
 
 > Factory Droid becomes a first-class runtime for checkpointed, long-running novel workflows.

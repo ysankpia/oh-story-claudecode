@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "网络小说创作工具箱 — 扫榜、拆文、写作、思想命题全流程，支持 Claude Code、Codex 与 Droid",
-    "version": "0.11.0"
+    "version": "0.11.1"
   },
   "plugins": [
     {

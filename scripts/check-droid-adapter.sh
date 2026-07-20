@@ -30,7 +30,7 @@ from pathlib import Path
 root = Path(sys.argv[1])
 plugin = json.loads((root / ".factory-plugin/plugin.json").read_text(encoding="utf-8"))
 assert plugin["name"] == "oh-story"
-assert plugin["version"] == "0.11.0"
+assert plugin["version"] == (root / "skills/story/VERSION").read_text(encoding="utf-8").strip()
 
 allowed_tools = {"Read", "Glob", "Grep", "Create", "Edit", "Execute", "WebSearch", "FetchUrl"}
 templates = {path.stem for path in (root / "skills/story-setup/references/templates/agents").glob("*.md")}
